@@ -70,7 +70,7 @@ public class CountryFacadeService {
         }
 
         Mono<Boolean> favoriteMono = memberId != null
-                ? Mono.fromCallable(() -> favoriteMapper.countByMemberIdAndCountryCode(memberId, countryCode) > 0)
+                ? Mono.fromCallable(() -> favoriteMapper.countByMemberIdAndCountryCode(memberId, country.getCca2()) > 0)
                         .subscribeOn(Schedulers.boundedElastic())
                         .onErrorReturn(false)
                 : Mono.just(false);

@@ -2,6 +2,7 @@ package com.example.travelcompass.mapper;
 
 import com.example.travelcompass.entity.FavoriteCountry;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -10,10 +11,10 @@ public interface FavoriteMapper {
 
     List<FavoriteCountry> findAllByMemberId(Long memberId);
 
-    int countByMemberIdAndCountryCode(Long memberId, String countryCode);
+    int countByMemberIdAndCountryCode(@Param("memberId") Long memberId, @Param("countryCode") String countryCode);
 
     void insert(FavoriteCountry favoriteCountry);
 
-    void deleteById(Long id);
+    int deleteByIdAndMemberId(@Param("id") Long id, @Param("memberId") Long memberId);
 
 }

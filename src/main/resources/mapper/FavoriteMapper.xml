@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.travelcompass.mapper.FavoriteMapper">
+
+    <resultMap id="favoriteResultMap" type="com.example.travelcompass.entity.FavoriteCountry">
+        <id property="id" column="id"/>
+        <result property="memberId" column="member_id"/>
+        <result property="countryCode" column="country_code"/>
+        <result property="createdAt" column="created_at"/>
+    </resultMap>
+
+    <select id="findAllByMemberId" parameterType="long" resultMap="favoriteResultMap">
+        SELECT id, member_id, country_code, created_at
+        FROM favorite_country
+        WHERE member_id = #{memberId}
+        ORDER BY created_at DESC
+    </select>
+
+    <select id="countByMemberIdAndCountryCode" resultType="int">
+        SELECT COUNT(*)
+        FROM favorite_country
+        WHERE member_id = #{memberId}
+          AND country_code = #{countryCode}
+    </select>
+
+    <insert id="insert" parameterType="com.example.travelcompass.entity.FavoriteCountry" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO favorite_country (member_id, country_code)
+        VALUES (#{memberId}, #{countryCode})
+    </insert>
+
+    <delete id="deleteByIdAndMemberId">
+        DELETE FROM favorite_country
+        WHERE id = #{id}
+          AND member_id = #{memberId}
+    </delete>
+
+</mapper>
