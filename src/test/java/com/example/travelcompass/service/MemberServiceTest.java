@@ -39,7 +39,6 @@ class MemberServiceTest {
         MemberJoinRequest request = new MemberJoinRequest();
         request.setUsername("traveler");
         request.setPassword("pass1234");
-        request.setName("홍길동");
         request.setNickname("여행자");
 
         memberService.signup(request);
@@ -56,7 +55,6 @@ class MemberServiceTest {
         MemberJoinRequest request = new MemberJoinRequest();
         request.setUsername("traveler");
         request.setPassword("pass1234");
-        request.setName("홍길동");
         request.setNickname("여행자");
 
         assertThatThrownBy(() -> memberService.signup(request))

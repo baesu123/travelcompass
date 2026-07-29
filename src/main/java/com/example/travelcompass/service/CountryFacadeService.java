@@ -56,6 +56,8 @@ public class CountryFacadeService {
                 ? openMeteoClient.getForecast(lat, lon).onErrorReturn(new OpenMeteoResponse())
                 : Mono.just(new OpenMeteoResponse());
 
+        // Frankfurter API는 동일 통화 쌍(KRW->KRW)을 조회하면 "bad currency pair" 에러를 반환하므로
+        // 외부 호출 없이 환율 1.0으로 직접 응답을 구성한다.
         Mono<FrankfurterResponse> exchangeMono;
         if (currencyCode == null) {
             exchangeMono = Mono.just(new FrankfurterResponse());
@@ -69,12 +71,17 @@ public class CountryFacadeService {
             exchangeMono = frankfurterClient.getLatestRate("KRW", currencyCode).onErrorReturn(new FrankfurterResponse());
         }
 
+        // MyBatis 호출은 블로킹이므로, 나머지 리액티브 체인(WebClient)과 같은 이벤트 루프 스레드를
+        // 막지 않도록 별도의 boundedElastic 스케줄러에서 실행한다.
         Mono<Boolean> favoriteMono = memberId != null
                 ? Mono.fromCallable(() -> favoriteMapper.countByMemberIdAndCountryCode(memberId, country.getCca2()) > 0)
                         .subscribeOn(Schedulers.boundedElastic())
                         .onErrorReturn(false)
                 : Mono.just(false);
 
+        // 국가 상세 화면은 REST Countries/Wiki/환율/날씨/즐겨찾기 5개 정보를 하나로 합쳐 보여줘야 하므로,
+        // 서로 독립적인 외부 API 호출들을 Mono.zip으로 병렬 실행해 응답 시간을 단축한다.
+        // 각 Mono는 onErrorReturn으로 실패를 흡수하므로, 외부 API 하나가 죽어도 나머지 정보는 정상 표시된다.
         return Mono.zip(wikiMono, weatherMono, exchangeMono, favoriteMono)
                 .map(tuple -> countryMapper.toCountryDetailResponse(
                         country, tuple.getT1(), tuple.getT3(), tuple.getT2(), tuple.getT4(), memberNickname))

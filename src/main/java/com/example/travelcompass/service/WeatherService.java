@@ -72,6 +72,10 @@ public class WeatherService {
         }
     }
 
+    /**
+     * climate.json에 없는 지역(region)이 조회될 경우를 대비한 안전한 기본값.
+     * 실제 평균치가 아니므로 여행자에게 "확인 필요"라는 메시지로만 안내한다.
+     */
     private ClimateInfo defaultClimateInfo() {
         ClimateInfo defaultInfo = new ClimateInfo();
         defaultInfo.setRegion("Unknown");

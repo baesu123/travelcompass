@@ -66,19 +66,13 @@ public class ReviewServiceImpl implements ReviewService {
                 .content(request.getContent())
                 .build();
 
-        int updated = reviewMapper.update(review);
-        if (updated == 0) {
-            throw new BusinessException(ErrorCode.REVIEW_NOT_FOUND);
-        }
+        requireAffected(reviewMapper.updateByIdAndMemberId(review), ErrorCode.REVIEW_NOT_FOUND);
     }
 
     @Override
     @Transactional
     public void deleteReview(Long memberId, Long reviewId) {
-        int deleted = reviewMapper.deleteByIdAndMemberId(reviewId, memberId);
-        if (deleted == 0) {
-            throw new BusinessException(ErrorCode.REVIEW_NOT_FOUND);
-        }
+        requireAffected(reviewMapper.deleteByIdAndMemberId(reviewId, memberId), ErrorCode.REVIEW_NOT_FOUND);
     }
 
     @Override
@@ -98,18 +92,24 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     @Transactional
     public void updateComment(Long memberId, Long reviewId, Long commentId, CommentCreateRequest request) {
-        int updated = commentMapper.updateContentByIdAndMemberId(commentId, memberId, request.getContent());
-        if (updated == 0) {
-            throw new BusinessException(ErrorCode.COMMENT_NOT_FOUND);
-        }
+        requireAffected(commentMapper.updateContentByIdAndMemberId(commentId, memberId, request.getContent()),
+                ErrorCode.COMMENT_NOT_FOUND);
     }
 
     @Override
     @Transactional
     public void deleteComment(Long memberId, Long reviewId, Long commentId) {
-        int deleted = commentMapper.deleteByIdAndMemberId(commentId, memberId);
-        if (deleted == 0) {
-            throw new BusinessException(ErrorCode.COMMENT_NOT_FOUND);
+        requireAffected(commentMapper.deleteByIdAndMemberId(commentId, memberId), ErrorCode.COMMENT_NOT_FOUND);
+    }
+
+    /**
+     * 소유권 검증(id + memberId)이 걸린 update/delete 쿼리는 영향받은 행이 0건이면
+     * "존재하지 않음"과 "내 소유가 아님"을 구분하지 않고 동일하게 NOT_FOUND로 응답한다.
+     * (다른 회원의 데이터 존재 여부를 노출하지 않기 위한 의도적인 설계)
+     */
+    private void requireAffected(int affectedRows, ErrorCode errorCode) {
+        if (affectedRows == 0) {
+            throw new BusinessException(errorCode);
         }
     }
 

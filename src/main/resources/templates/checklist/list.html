@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>여행 체크리스트 - Travel Compass</title>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/nav :: nav}"></div>
+
+<main class="container">
+    <div class="card">
+        <h2>여행 체크리스트</h2>
+        <form class="search-form" id="add-form">
+            <input type="text" id="item-name" placeholder="새 항목 입력 (예: 여권)" required>
+            <button type="submit">추가</button>
+        </form>
+        <ul class="plain-list" id="checklist"></ul>
+    </div>
+</main>
+
+<script th:src="@{/js/api.js}"></script>
+<script th:src="@{/js/checklist.js}"></script>
+</body>
+</html>

@@ -40,7 +40,6 @@ public class MemberService implements UserDetailsService {
         Member member = Member.builder()
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .name(request.getName())
                 .nickname(request.getNickname())
                 .build();
 

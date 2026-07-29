@@ -50,9 +50,17 @@ public class FavoriteServiceImpl implements FavoriteService {
     @Override
     @Transactional
     public void removeFavorite(Long memberId, Long favoriteId) {
-        int deleted = favoriteMapper.deleteByIdAndMemberId(favoriteId, memberId);
-        if (deleted == 0) {
-            throw new BusinessException(ErrorCode.FAVORITE_NOT_FOUND);
+        requireAffected(favoriteMapper.deleteByIdAndMemberId(favoriteId, memberId), ErrorCode.FAVORITE_NOT_FOUND);
+    }
+
+    /**
+     * 소유권 검증(id + memberId)이 걸린 update/delete 쿼리는 영향받은 행이 0건이면
+     * "존재하지 않음"과 "내 소유가 아님"을 구분하지 않고 동일하게 NOT_FOUND로 응답한다.
+     * (다른 회원의 데이터 존재 여부를 노출하지 않기 위한 의도적인 설계)
+     */
+    private void requireAffected(int affectedRows, ErrorCode errorCode) {
+        if (affectedRows == 0) {
+            throw new BusinessException(errorCode);
         }
     }
 

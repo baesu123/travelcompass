@@ -46,19 +46,14 @@ public class ChecklistServiceImpl implements ChecklistService {
     @Override
     @Transactional
     public void updateChecklist(Long memberId, Long checklistId, ChecklistUpdateRequest request) {
-        int updated = checklistMapper.updateCheckedByIdAndMemberId(checklistId, memberId, request.isChecked());
-        if (updated == 0) {
-            throw new BusinessException(ErrorCode.CHECKLIST_NOT_FOUND);
-        }
+        requireAffected(checklistMapper.updateCheckedByIdAndMemberId(checklistId, memberId, request.isChecked()),
+                ErrorCode.CHECKLIST_NOT_FOUND);
     }
 
     @Override
     @Transactional
     public void deleteChecklistItem(Long memberId, Long checklistId) {
-        int deleted = checklistMapper.deleteByIdAndMemberId(checklistId, memberId);
-        if (deleted == 0) {
-            throw new BusinessException(ErrorCode.CHECKLIST_NOT_FOUND);
-        }
+        requireAffected(checklistMapper.deleteByIdAndMemberId(checklistId, memberId), ErrorCode.CHECKLIST_NOT_FOUND);
     }
 
     @Override
@@ -70,6 +65,17 @@ public class ChecklistServiceImpl implements ChecklistService {
                     .itemName(itemName)
                     .checked(false)
                     .build());
+        }
+    }
+
+    /**
+     * 소유권 검증(id + memberId)이 걸린 update/delete 쿼리는 영향받은 행이 0건이면
+     * "존재하지 않음"과 "내 소유가 아님"을 구분하지 않고 동일하게 NOT_FOUND로 응답한다.
+     * (다른 회원의 데이터 존재 여부를 노출하지 않기 위한 의도적인 설계)
+     */
+    private void requireAffected(int affectedRows, ErrorCode errorCode) {
+        if (affectedRows == 0) {
+            throw new BusinessException(errorCode);
         }
     }
 

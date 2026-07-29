@@ -30,7 +30,7 @@
         VALUES (#{memberId}, #{countryCode}, #{rating}, #{content})
     </insert>
 
-    <update id="update" parameterType="com.example.travelcompass.entity.Review">
+    <update id="updateByIdAndMemberId" parameterType="com.example.travelcompass.entity.Review">
         UPDATE review
         SET country_code = #{countryCode},
             rating = #{rating},

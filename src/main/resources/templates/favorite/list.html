@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>즐겨찾기 - Travel Compass</title>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/nav :: nav}"></div>
+
+<main class="container">
+    <div class="card">
+        <h2>즐겨찾기한 국가</h2>
+        <ul class="plain-list" id="favorite-list"></ul>
+    </div>
+</main>
+
+<script th:src="@{/js/api.js}"></script>
+<script th:src="@{/js/favorite.js}"></script>
+</body>
+</html>

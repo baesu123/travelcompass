@@ -6,19 +6,18 @@
         <id property="id" column="id"/>
         <result property="username" column="username"/>
         <result property="password" column="password"/>
-        <result property="name" column="name"/>
         <result property="nickname" column="nickname"/>
         <result property="createdAt" column="created_at"/>
     </resultMap>
 
     <select id="findByUsername" parameterType="string" resultMap="memberResultMap">
-        SELECT id, username, password, name, nickname, created_at
+        SELECT id, username, password, nickname, created_at
         FROM member
         WHERE username = #{username}
     </select>
 
     <select id="findById" parameterType="long" resultMap="memberResultMap">
-        SELECT id, username, password, name, nickname, created_at
+        SELECT id, username, password, nickname, created_at
         FROM member
         WHERE id = #{id}
     </select>
@@ -30,8 +29,8 @@
     </select>
 
     <insert id="insert" parameterType="com.example.travelcompass.entity.Member" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO member (username, password, name, nickname)
-        VALUES (#{username}, #{password}, #{name}, #{nickname})
+        INSERT INTO member (username, password, nickname)
+        VALUES (#{username}, #{password}, #{nickname})
     </insert>
 
 </mapper>

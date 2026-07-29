@@ -71,7 +71,7 @@ class ReviewServiceImplTest {
 
     @Test
     void 본인_소유가_아닌_후기_수정_삭제는_예외가_발생한다() {
-        when(reviewMapper.update(any(Review.class))).thenReturn(0);
+        when(reviewMapper.updateByIdAndMemberId(any(Review.class))).thenReturn(0);
         when(reviewMapper.deleteByIdAndMemberId(1L, 10L)).thenReturn(0);
 
         ReviewCreateRequest request = new ReviewCreateRequest();

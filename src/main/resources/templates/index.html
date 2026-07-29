@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Travel Compass</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/nav :: nav}"></div>
+
+<main class="container">
+    <div class="card">
+        <h2><span th:text="${nickname}"></span>님, 어디로 떠나볼까요?</h2>
+        <p>국가 코드를 입력하면 해당 국가의 환율, 날씨, 시차, 관광지 정보를 한 번에 확인할 수 있어요.</p>
+        <form class="search-form" onsubmit="event.preventDefault(); goToCountry();">
+            <input type="text" id="countryCode" placeholder="국가 코드 입력 (예: KR, JP, US)" maxlength="2" required>
+            <button type="submit">국가 정보 보기</button>
+        </form>
+    </div>
+</main>
+
+<script>
+    function goToCountry() {
+        const code = document.getElementById('countryCode').value.trim().toUpperCase();
+        if (code) {
+            location.href = '/country/' + code;
+        }
+    }
+</script>
+</body>
+</html>

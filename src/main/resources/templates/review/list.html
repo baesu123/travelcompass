@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>여행 후기 - Travel Compass</title>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/nav :: nav}"></div>
+
+<main class="container" th:data-country-code="${countryCode}" id="app-data">
+    <div class="card">
+        <h2>여행 후기</h2>
+        <form class="search-form" id="search-form">
+            <input type="text" id="search-country-code" placeholder="국가 코드 (예: KR)" maxlength="2"
+                   th:value="${countryCode}" required>
+            <button type="submit">후기 검색</button>
+        </form>
+    </div>
+
+    <div class="card" id="write-card">
+        <h3>후기 작성</h3>
+        <form id="review-form">
+            <div class="form-group">
+                <label for="rating">평점 (1~5)</label>
+                <input type="number" id="rating" min="1" max="5" required>
+            </div>
+            <div class="form-group">
+                <label for="content">내용</label>
+                <textarea id="content" rows="3" required></textarea>
+            </div>
+            <button type="submit">등록</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <ul class="plain-list" id="review-list"></ul>
+    </div>
+</main>
+
+<script th:src="@{/js/api.js}"></script>
+<script th:src="@{/js/review-list.js}"></script>
+</body>
+</html>
