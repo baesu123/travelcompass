@@ -1,8 +1,8 @@
 spring:
   application:
     name: travelcompass
-  config:
-    import: optional:classpath:application-local.yaml
+  profiles:
+    active: local   # 기본 실행 프로필. 배포 시 --spring.profiles.active=prod 로 오버라이드
   thymeleaf:
     cache: false
 
