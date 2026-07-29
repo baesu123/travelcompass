@@ -1,0 +1,44 @@
+[
+  {
+    "region": "Africa",
+    "averageTemperature": 26.5,
+    "averagePrecipitation": 80.0,
+    "recommendedClothing": "통풍이 잘되는 얇은 옷과 자외선 차단 용품",
+    "travelTip": "낮과 밤의 기온차가 크니 얇은 겉옷을 하나 챙기세요."
+  },
+  {
+    "region": "Americas",
+    "averageTemperature": 18.0,
+    "averagePrecipitation": 90.0,
+    "recommendedClothing": "가벼운 겉옷과 편한 신발",
+    "travelTip": "지역에 따라 기후 차이가 크니 목적지의 세부 지역 기후를 미리 확인하세요."
+  },
+  {
+    "region": "Antarctic",
+    "averageTemperature": -25.0,
+    "averagePrecipitation": 15.0,
+    "recommendedClothing": "방한복과 방풍·방수 장비 필수",
+    "travelTip": "극한 저온 지역이므로 충분한 방한 장비 없이는 이동을 삼가세요."
+  },
+  {
+    "region": "Asia",
+    "averageTemperature": 21.0,
+    "averagePrecipitation": 110.0,
+    "recommendedClothing": "계절별 기온차에 대비한 겹쳐 입기",
+    "travelTip": "우기(몬순) 시즌에는 우산과 방수 신발을 챙기세요."
+  },
+  {
+    "region": "Europe",
+    "averageTemperature": 12.0,
+    "averagePrecipitation": 70.0,
+    "recommendedClothing": "레이어드 코디와 방수 재킷",
+    "travelTip": "날씨 변화가 잦으니 우산이나 우비를 챙기는 것이 좋습니다."
+  },
+  {
+    "region": "Oceania",
+    "averageTemperature": 20.0,
+    "averagePrecipitation": 85.0,
+    "recommendedClothing": "자외선 차단 의류와 선글라스",
+    "travelTip": "자외선이 강하니 선크림을 자주 발라주세요."
+  }
+]
