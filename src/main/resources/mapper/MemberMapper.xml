@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.todoapp.mapper.MemberMapper">
+
+    <resultMap id="memberResultMap" type="com.example.todoapp.domain.Member">
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="name" column="name"/>
+        <result property="createdAt" column="created_at"/>
+    </resultMap>
+
+    <select id="findByUsername" parameterType="string" resultMap="memberResultMap">
+        SELECT id, username, password, name, created_at
+        FROM member
+        WHERE username = #{username}
+    </select>
+
+    <select id="countByUsername" parameterType="string" resultType="int">
+        SELECT COUNT(*)
+        FROM member
+        WHERE username = #{username}
+    </select>
+
+    <insert id="insert" parameterType="com.example.todoapp.domain.Member" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO member (username, password, name)
+        VALUES (#{username}, #{password}, #{name})
+    </insert>
+
+</mapper>

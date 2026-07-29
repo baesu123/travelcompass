@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: travelcompass
+  config:
+    import: optional:classpath:application-local.yaml
+  thymeleaf:
+    cache: false
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.example.travelcompass.entity
+  configuration:
+    map-underscore-to-camel-case: true
+
+server:
+  port: 8080
+
+logging:
+  level:
+    com.example.travelcompass: debug
