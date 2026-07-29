@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.travelcompass.mapper.ChecklistMapper">
+
+    <resultMap id="checklistResultMap" type="com.example.travelcompass.entity.Checklist">
+        <id property="id" column="id"/>
+        <result property="memberId" column="member_id"/>
+        <result property="itemName" column="item_name"/>
+        <result property="checked" column="checked"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+    </resultMap>
+
+    <select id="findAllByMemberId" parameterType="long" resultMap="checklistResultMap">
+        SELECT id, member_id, item_name, checked, created_at, updated_at
+        FROM checklist
+        WHERE member_id = #{memberId}
+        ORDER BY id ASC
+    </select>
+
+    <insert id="insert" parameterType="com.example.travelcompass.entity.Checklist" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO checklist (member_id, item_name, checked)
+        VALUES (#{memberId}, #{itemName}, #{checked})
+    </insert>
+
+    <update id="updateCheckedByIdAndMemberId">
+        UPDATE checklist
+        SET checked = #{checked}, updated_at = CURRENT_TIMESTAMP
+        WHERE id = #{id}
+          AND member_id = #{memberId}
+    </update>
+
+    <delete id="deleteByIdAndMemberId">
+        DELETE FROM checklist
+        WHERE id = #{id}
+          AND member_id = #{memberId}
+    </delete>
+
+</mapper>

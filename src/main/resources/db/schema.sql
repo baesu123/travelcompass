@@ -15,3 +15,13 @@ CREATE TABLE IF NOT EXISTS favorite_country (
     CONSTRAINT uk_favorite_member_country UNIQUE (member_id, country_code),
     CONSTRAINT fk_favorite_member FOREIGN KEY (member_id) REFERENCES member (id)
 );
+
+CREATE TABLE IF NOT EXISTS checklist (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    member_id BIGINT NOT NULL,
+    item_name VARCHAR(50) NOT NULL,
+    checked BOOLEAN NOT NULL DEFAULT FALSE,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT fk_checklist_member FOREIGN KEY (member_id) REFERENCES member (id)
+);

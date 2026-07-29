@@ -2,6 +2,7 @@ package com.example.travelcompass.mapper;
 
 import com.example.travelcompass.entity.Checklist;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -12,8 +13,8 @@ public interface ChecklistMapper {
 
     void insert(Checklist checklist);
 
-    void updateChecked(Long id, boolean checked);
+    int updateCheckedByIdAndMemberId(@Param("id") Long id, @Param("memberId") Long memberId, @Param("checked") boolean checked);
 
-    void deleteById(Long id);
+    int deleteByIdAndMemberId(@Param("id") Long id, @Param("memberId") Long memberId);
 
 }

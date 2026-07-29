@@ -20,6 +20,7 @@ public class MemberService implements UserDetailsService {
 
     private final MemberMapper memberMapper;
     private final PasswordEncoder passwordEncoder;
+    private final ChecklistService checklistService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -44,6 +45,7 @@ public class MemberService implements UserDetailsService {
                 .build();
 
         memberMapper.insert(member);
+        checklistService.createDefaults(member.getId());
     }
 
 }

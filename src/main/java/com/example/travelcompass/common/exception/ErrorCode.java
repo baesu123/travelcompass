@@ -13,7 +13,9 @@ public enum ErrorCode {
     DUPLICATE_USERNAME(HttpStatus.CONFLICT, "M001", "이미 사용 중인 아이디입니다."),
 
     FAVORITE_ALREADY_EXISTS(HttpStatus.CONFLICT, "F001", "이미 즐겨찾기에 추가된 국가입니다."),
-    FAVORITE_NOT_FOUND(HttpStatus.NOT_FOUND, "F002", "즐겨찾기를 찾을 수 없습니다.");
+    FAVORITE_NOT_FOUND(HttpStatus.NOT_FOUND, "F002", "즐겨찾기를 찾을 수 없습니다."),
+
+    CHECKLIST_NOT_FOUND(HttpStatus.NOT_FOUND, "CL001", "체크리스트 항목을 찾을 수 없습니다.");
 
     private final HttpStatus status;
     private final String code;
