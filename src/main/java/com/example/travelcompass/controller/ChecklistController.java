@@ -1,4 +1,15 @@
 package com.example.travelcompass.controller;
 
+import com.example.travelcompass.service.ChecklistService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/api/checklists")
 public class ChecklistController {
+
+    private final ChecklistService checklistService;
+
 }

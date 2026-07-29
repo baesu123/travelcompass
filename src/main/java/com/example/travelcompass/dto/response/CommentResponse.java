@@ -5,19 +5,15 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Builder
 @AllArgsConstructor
-public class ReviewResponse {
+public class CommentResponse {
 
     private Long id;
     private String authorNickname;
-    private String countryCode;
-    private int rating;
     private String content;
     private LocalDateTime createdAt;
-    private List<CommentResponse> comments;
 
 }

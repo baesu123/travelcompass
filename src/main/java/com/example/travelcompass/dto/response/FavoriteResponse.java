@@ -1,22 +1,17 @@
-package com.example.travelcompass.entity;
+package com.example.travelcompass.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
-public class FavoriteCountry {
+@AllArgsConstructor
+public class FavoriteResponse {
 
     private Long id;
-    private Long memberId;
     private String countryCode;
     private LocalDateTime createdAt;
 
