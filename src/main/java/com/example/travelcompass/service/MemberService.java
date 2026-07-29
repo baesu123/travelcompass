@@ -1,10 +1,10 @@
 package com.example.travelcompass.service;
 
-
-
+import com.example.travelcompass.common.exception.BusinessException;
+import com.example.travelcompass.common.exception.ErrorCode;
 import com.example.travelcompass.config.MemberDetails;
+import com.example.travelcompass.dto.request.MemberJoinRequest;
 import com.example.travelcompass.entity.Member;
-import com.example.travelcompass.dto.SignupForm;
 import com.example.travelcompass.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,15 +31,16 @@ public class MemberService implements UserDetailsService {
     }
 
     @Transactional
-    public void signup(SignupForm form) {
-        if (memberMapper.countByUsername(form.getUsername()) > 0) {
-            throw new IllegalArgumentException("이미 사용 중인 아이디입니다.");
+    public void signup(MemberJoinRequest request) {
+        if (memberMapper.countByUsername(request.getUsername()) > 0) {
+            throw new BusinessException(ErrorCode.DUPLICATE_USERNAME);
         }
 
         Member member = Member.builder()
-                .username(form.getUsername())
-                .password(passwordEncoder.encode(form.getPassword()))
-                .name(form.getName())
+                .username(request.getUsername())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .name(request.getName())
+                .nickname(request.getNickname())
                 .build();
 
         memberMapper.insert(member);
