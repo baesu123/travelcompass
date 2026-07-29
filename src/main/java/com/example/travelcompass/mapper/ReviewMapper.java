@@ -2,6 +2,7 @@ package com.example.travelcompass.mapper;
 
 import com.example.travelcompass.entity.Review;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -14,8 +15,8 @@ public interface ReviewMapper {
 
     void insert(Review review);
 
-    void update(Review review);
+    int update(Review review);
 
-    void deleteById(Long id);
+    int deleteByIdAndMemberId(@Param("id") Long id, @Param("memberId") Long memberId);
 
 }

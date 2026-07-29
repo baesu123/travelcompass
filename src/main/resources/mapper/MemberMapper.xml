@@ -17,6 +17,12 @@
         WHERE username = #{username}
     </select>
 
+    <select id="findById" parameterType="long" resultMap="memberResultMap">
+        SELECT id, username, password, name, nickname, created_at
+        FROM member
+        WHERE id = #{id}
+    </select>
+
     <select id="countByUsername" parameterType="string" resultType="int">
         SELECT COUNT(*)
         FROM member

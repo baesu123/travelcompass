@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.travelcompass.mapper.ReviewMapper">
+
+    <resultMap id="reviewResultMap" type="com.example.travelcompass.entity.Review">
+        <id property="id" column="id"/>
+        <result property="memberId" column="member_id"/>
+        <result property="countryCode" column="country_code"/>
+        <result property="rating" column="rating"/>
+        <result property="content" column="content"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+    </resultMap>
+
+    <select id="findAllByCountryCode" parameterType="string" resultMap="reviewResultMap">
+        SELECT id, member_id, country_code, rating, content, created_at, updated_at
+        FROM review
+        WHERE country_code = #{countryCode}
+        ORDER BY created_at DESC
+    </select>
+
+    <select id="findById" parameterType="long" resultMap="reviewResultMap">
+        SELECT id, member_id, country_code, rating, content, created_at, updated_at
+        FROM review
+        WHERE id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.example.travelcompass.entity.Review" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO review (member_id, country_code, rating, content)
+        VALUES (#{memberId}, #{countryCode}, #{rating}, #{content})
+    </insert>
+
+    <update id="update" parameterType="com.example.travelcompass.entity.Review">
+        UPDATE review
+        SET country_code = #{countryCode},
+            rating = #{rating},
+            content = #{content},
+            updated_at = CURRENT_TIMESTAMP
+        WHERE id = #{id}
+          AND member_id = #{memberId}
+    </update>
+
+    <delete id="deleteByIdAndMemberId">
+        DELETE FROM review
+        WHERE id = #{id}
+          AND member_id = #{memberId}
+    </delete>
+
+</mapper>

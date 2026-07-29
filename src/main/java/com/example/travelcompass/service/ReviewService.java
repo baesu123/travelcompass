@@ -20,6 +20,8 @@ public interface ReviewService {
 
     void addComment(Long memberId, Long reviewId, CommentCreateRequest request);
 
+    void updateComment(Long memberId, Long reviewId, Long commentId, CommentCreateRequest request);
+
     void deleteComment(Long memberId, Long reviewId, Long commentId);
 
 }

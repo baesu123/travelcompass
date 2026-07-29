@@ -8,6 +8,8 @@ public interface MemberMapper {
 
     Member findByUsername(String username);
 
+    Member findById(Long id);
+
     int countByUsername(String username);
 
     void insert(Member member);
