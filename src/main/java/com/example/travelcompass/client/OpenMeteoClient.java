@@ -18,7 +18,7 @@ public class OpenMeteoClient {
     /**
      * 생성자에서 WebClientConfig가 등록해준 공용 WebClient.Builder를 주입받아
      * Open-Meteo 전용 baseUrl을 지정한 WebClient를 만들어 둔다.
-     * 초보자 팁: WebClient.Builder는 매번 새로 build()해서 써야 설정이 서로 섞이지 않는다.
+     * WebClient.Builder는 매번 새로 build()해서 써야 설정이 서로 섞이지 않는다.
      *
      * @param webClientBuilder 스프링 빈으로 등록된 공용 WebClient 빌더 (WebClientConfig 참고)
      */
@@ -30,7 +30,7 @@ public class OpenMeteoClient {
 
     /**
      * 지정한 위도/경도 위치의 16일치 일별 최고/최저 기온과 강수 확률 예보를 조회한다.
-     * 초보자 팁: 이 메서드는 block() 없이 Mono(비동기 결과 컨테이너)를 그대로 반환하므로,
+     * 이 메서드는 block() 없이 Mono(비동기 결과 컨테이너)를 그대로 반환하므로,
      * 호출한 쪽(서비스 계층)에서 필요에 따라 block()으로 동기 변환하거나 리액티브하게 조합해서 쓴다.
      *
      * @param latitude  조회할 지점의 위도
@@ -49,7 +49,7 @@ public class OpenMeteoClient {
                         // timezone=auto: 위경도 기준으로 현지 시간대를 자동 적용
                         .queryParam("timezone", "auto")
                         // forecast_days: 앞으로 며칠치 예보를 받을지 (최대 16일)
-                        .queryParam("forecast_days", 16)
+                        .queryParam("forecast_days", 14)
                         .build())
                 .retrieve() // 응답을 받아오되, 4xx/5xx면 기본적으로 예외(WebClientResponseException)를 던짐
                 .bodyToMono(OpenMeteoResponse.class); // JSON 응답 바디를 OpenMeteoResponse 객체로 역직렬화

@@ -14,7 +14,7 @@
         const budgetComparison = totalSpent <= totalBudget ? '예산 내에 있습니다.' : '예산을 초과하였습니다.';
 
         return (
-            '<p><strong>총 소비액:</strong> ' + totalSpent.toLocaleString() + '원 (' + budgetComparison + ')</p>' +
+            '<p class="font-semibold text-slate-900">총 소비액: ' + totalSpent.toLocaleString() + '원 <span class="font-normal text-primary-600">(' + budgetComparison + ')</span></p>' +
             '<p>숙박비 비율: ' + accommodationPercent + '%</p>' +
             '<p>식비 비율: ' + foodPercent + '%</p>' +
             '<p>교통비 비율: ' + transportPercent + '%</p>' +
@@ -24,7 +24,7 @@
 
     function exchangeHtml(result) {
         return (
-            '<p><strong>환산 숙박비 총액:</strong> ' + result.convertedAmount.toFixed(2) + ' ' + result.toCurrency + '</p>' +
+            '<p class="mt-2 border-t border-slate-200 pt-2 font-semibold text-slate-900">환산 숙박비 총액: ' + result.convertedAmount.toFixed(2) + ' ' + result.toCurrency + '</p>' +
             '<p>적용 환율: 1 ' + result.fromCurrency + ' = ' + result.rate.toFixed(4) + ' ' + result.toCurrency + '</p>'
         );
     }
@@ -57,6 +57,6 @@
             body: JSON.stringify({ days: days, costPerNightKrw: accommodation, targetCurrency: targetCurrency })
         })
             .then(result => { resultEl.innerHTML += exchangeHtml(result); })
-            .catch(err => { resultEl.innerHTML += '<p class="error-message">' + err.message + '</p>'; });
+            .catch(err => { resultEl.innerHTML += '<p class="text-rose-600">' + err.message + '</p>'; });
     });
 })();

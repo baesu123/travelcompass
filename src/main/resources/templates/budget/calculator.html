@@ -2,22 +2,48 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>예산 계산기 - Travel Compass</title>
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {sans: ['Inter', '"Malgun Gothic"', 'sans-serif']},
+                    colors: {
+                        primary: {
+                            50: '#eef2f8', 100: '#dbe4f1', 200: '#b7c9e3', 300: '#93aed5',
+                            400: '#6f93c1', 500: '#5070ad', 600: '#435d8f', 700: '#364a72',
+                            800: '#293755', 900: '#1c2438'
+                        }
+                    },
+                    boxShadow: {
+                        card: '0 2px 12px rgba(23, 34, 59, 0.06)',
+                        'card-hover': '0 10px 30px rgba(23, 34, 59, 0.10)'
+                    }
+                }
+            }
+        }
+    </script>
     <link rel="stylesheet" th:href="@{/css/style.css}">
-    <link rel="stylesheet" th:href="@{/css/budget.css}">
 </head>
-<body>
+<body class="bg-primary-50 font-sans text-slate-800 antialiased">
 <div th:replace="~{fragments/nav :: nav}"></div>
 
-<main class="container">
-    <div class="budget-card">
-        <h2>여행 예산 계산기</h2>
-        <form id="budgetCalculator">
-            <div class="input-block">
-                <label for="totalBudget">총 여행 예산</label>
-                <select id="totalBudget" name="totalBudget" required>
+<main class="mx-auto max-w-xl px-4 py-8 sm:px-6 lg:px-8">
+    <div class="rounded-2xl bg-white p-6 shadow-card sm:p-8">
+        <h2 class="text-xl font-bold text-slate-900">여행 예산 계산기</h2>
+        <p class="mt-1 text-sm text-slate-500">여행 비용을 입력하면 항목별 비율과 환산 금액을 계산해드려요.</p>
+
+        <form class="mt-6 space-y-5" id="budgetCalculator">
+            <div>
+                <label for="totalBudget" class="mb-1.5 block text-sm font-semibold text-slate-700">총 여행 예산</label>
+                <select id="totalBudget" name="totalBudget" required
+                        class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm outline-none transition focus:border-primary-400 focus:ring-2 focus:ring-primary-100">
                     <option value="300000">300,000원</option>
                     <option value="500000">500,000원</option>
                     <option value="800000">800,000원</option>
@@ -28,37 +54,45 @@
                     <option value="5000000">5,000,000원</option>
                     <option value="other">기타</option>
                 </select>
-                <input type="number" id="otherBudget" name="otherBudget" style="display:none;" placeholder="예산을 입력하세요.">
+                <input type="number" id="otherBudget" name="otherBudget" style="display:none;" placeholder="예산을 입력하세요."
+                       class="mt-2 w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm outline-none transition focus:border-primary-400 focus:ring-2 focus:ring-primary-100">
             </div>
-            <div class="input-block">
-                <label for="days">여행 일수</label>
-                <input type="number" id="days" name="days" min="1" required>
+            <div>
+                <label for="days" class="mb-1.5 block text-sm font-semibold text-slate-700">여행 일수</label>
+                <input type="number" id="days" name="days" min="1" required
+                       class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm outline-none transition focus:border-primary-400 focus:ring-2 focus:ring-primary-100">
             </div>
-            <div class="input-block">
-                <label for="accommodation">숙박비(하루)</label>
-                <input type="number" id="accommodation" name="accommodation" min="0" required>
+            <div>
+                <label for="accommodation" class="mb-1.5 block text-sm font-semibold text-slate-700">숙박비(하루)</label>
+                <input type="number" id="accommodation" name="accommodation" min="0" required
+                       class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm outline-none transition focus:border-primary-400 focus:ring-2 focus:ring-primary-100">
             </div>
-            <div class="input-block">
-                <label for="transport">교통비</label>
-                <input type="number" id="transport" name="transport" min="0" required>
+            <div>
+                <label for="transport" class="mb-1.5 block text-sm font-semibold text-slate-700">교통비</label>
+                <input type="number" id="transport" name="transport" min="0" required
+                       class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm outline-none transition focus:border-primary-400 focus:ring-2 focus:ring-primary-100">
             </div>
-            <div class="input-block">
-                <label for="food">식비(하루)</label>
-                <input type="number" id="food" name="food" min="0" required>
+            <div>
+                <label for="food" class="mb-1.5 block text-sm font-semibold text-slate-700">식비(하루)</label>
+                <input type="number" id="food" name="food" min="0" required
+                       class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm outline-none transition focus:border-primary-400 focus:ring-2 focus:ring-primary-100">
             </div>
-            <div class="input-block">
-                <label for="shopping">쇼핑 및 기타 비용</label>
-                <input type="number" id="shopping" name="shopping" min="0" required>
+            <div>
+                <label for="shopping" class="mb-1.5 block text-sm font-semibold text-slate-700">쇼핑 및 기타 비용</label>
+                <input type="number" id="shopping" name="shopping" min="0" required
+                       class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm outline-none transition focus:border-primary-400 focus:ring-2 focus:ring-primary-100">
             </div>
-            <div class="input-block">
-                <label for="targetCurrency">현지 통화 코드 (환율 변환용)</label>
-                <input type="text" id="targetCurrency" name="targetCurrency" placeholder="예: USD, JPY, EUR">
+            <div>
+                <label for="targetCurrency" class="mb-1.5 block text-sm font-semibold text-slate-700">현지 통화 코드 (환율 변환용)</label>
+                <input type="text" id="targetCurrency" name="targetCurrency" placeholder="예: USD, JPY, EUR"
+                       class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm outline-none transition focus:border-primary-400 focus:ring-2 focus:ring-primary-100">
             </div>
-            <div class="input-block">
-                <input type="submit" class="btn" value="예산 계산하기">
+            <div>
+                <input type="submit" value="예산 계산하기"
+                       class="w-full cursor-pointer rounded-xl bg-primary-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-primary-700">
             </div>
         </form>
-        <div id="result"></div>
+        <div id="result" class="mt-6 space-y-1.5 rounded-xl bg-slate-50 p-5 text-sm text-slate-700 empty:hidden"></div>
     </div>
 </main>
 

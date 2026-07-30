@@ -2,16 +2,40 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>후기 상세 - Travel Compass</title>
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {sans: ['Inter', '"Malgun Gothic"', 'sans-serif']},
+                    colors: {
+                        primary: {
+                            50: '#eef2f8', 100: '#dbe4f1', 200: '#b7c9e3', 300: '#93aed5',
+                            400: '#6f93c1', 500: '#5070ad', 600: '#435d8f', 700: '#364a72',
+                            800: '#293755', 900: '#1c2438'
+                        }
+                    },
+                    boxShadow: {
+                        card: '0 2px 12px rgba(23, 34, 59, 0.06)',
+                        'card-hover': '0 10px 30px rgba(23, 34, 59, 0.10)'
+                    }
+                }
+            }
+        }
+    </script>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
-<body>
+<body class="bg-primary-50 font-sans text-slate-800 antialiased">
 <div th:replace="~{fragments/nav :: nav}"></div>
 
-<main class="container" id="app" th:data-review-id="${reviewId}">
-    <p>불러오는 중...</p>
+<main class="mx-auto max-w-2xl px-4 py-8 sm:px-6 lg:px-8" id="app" th:data-review-id="${reviewId}">
+    <div class="flex min-h-[160px] items-center justify-center rounded-2xl bg-white p-6 text-sm text-slate-500 shadow-card">불러오는 중...</div>
 </main>
 
 <script th:src="@{/js/api.js}"></script>

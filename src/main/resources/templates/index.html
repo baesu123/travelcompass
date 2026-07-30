@@ -2,39 +2,64 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Travel Compass</title>
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {sans: ['Inter', '"Malgun Gothic"', 'sans-serif']},
+                    colors: {
+                        primary: {
+                            50: '#eef2f8', 100: '#dbe4f1', 200: '#b7c9e3', 300: '#93aed5',
+                            400: '#6f93c1', 500: '#5070ad', 600: '#435d8f', 700: '#364a72',
+                            800: '#293755', 900: '#1c2438'
+                        }
+                    },
+                    boxShadow: {
+                        card: '0 2px 12px rgba(23, 34, 59, 0.06)',
+                        'card-hover': '0 10px 30px rgba(23, 34, 59, 0.10)'
+                    }
+                }
+            }
+        }
+    </script>
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 </head>
-<body>
+<body class="bg-primary-50 font-sans text-slate-800 antialiased">
 <div th:replace="~{fragments/nav :: nav}"></div>
 
-<main class="container">
-    <div class="card">
-        <h2><span th:text="${nickname}"></span>님, 어디로 떠나볼까요?</h2>
-        <p>국가 코드 또는 국가명(한글/영문)을 입력하면 해당 국가의 환율, 날씨, 시차, 관광지 정보를 한 번에 확인할 수 있어요.</p>
-        <form class="search-form" onsubmit="event.preventDefault(); goToCountry();">
-            <input type="text" id="countryCode" placeholder="국가 코드 또는 국가명 입력 (예: KR, 대한민국, Korea)" required>
-            <button type="submit">검색</button>
+<main class="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
+    <section class="rounded-2xl bg-gradient-to-br from-primary-700 via-primary-600 to-primary-500 px-6 py-10 text-white shadow-card sm:px-10 sm:py-14">
+        <h2 class="text-2xl font-bold sm:text-3xl"><span th:text="${nickname}"></span>님, 어디로 떠나볼까요?</h2>
+        <p class="mt-3 max-w-xl text-sm text-primary-50/90 sm:text-base">국가명(한글/영문) 또는 국가 코드를 입력하면 해당 국가의 환율, 날씨, 시차, 관광지 정보를 한 번에 확인할 수 있어요.</p>
+        <form class="mt-6 flex flex-col gap-3 sm:flex-row" onsubmit="event.preventDefault(); goToCountry();">
+            <input type="text" id="countryCode" placeholder="국가 코드 또는 국가명 입력 (예: KR, 대한민국, Korea)" required
+                   class="flex-1 rounded-xl border-0 bg-white/95 px-4 py-3 text-slate-800 placeholder-slate-400 shadow-sm outline-none focus:ring-2 focus:ring-white">
+            <button type="submit"
+                    class="inline-flex items-center justify-center rounded-xl bg-white px-6 py-3 font-semibold text-primary-700 shadow-sm transition hover:bg-primary-50">검색</button>
         </form>
-        <ul id="search-results" class="search-results"></ul>
-    </div>
+        <ul id="search-results" class="mt-4 divide-y divide-white/15 overflow-hidden rounded-xl empty:hidden"></ul>
+    </section>
 
-    <div class="map-page">
-        <div class="card">
-            <h2>지도에서 국가를 클릭해보세요</h2>
-            <div id="map"></div>
-        </div>
-        <div id="detail-panel">
-            <div class="card">
-                <p>지도에서 국가를 클릭하면 상세 정보가 여기에 표시됩니다.</p>
-            </div>
-        </div>
-    </div>
+    <section class="mt-8 rounded-2xl bg-white p-6 shadow-card">
+        <h2 class="text-lg font-semibold text-slate-800">지도에서 국가를 클릭해보세요</h2>
+        <div id="map" class="mt-4 h-[420px] w-full rounded-xl sm:h-[520px]"></div>
+    </section>
 
-    <div id="attractions-panel"></div>
+    <section id="detail-panel" class="mt-8">
+        <div class="flex min-h-[160px] items-center justify-center rounded-2xl bg-white p-6 text-center text-sm text-slate-500 shadow-card">
+            지도에서 국가를 클릭하면 상세 정보가 여기에 표시됩니다.
+        </div>
+    </section>
+
+    <section id="attractions-panel"></section>
 </main>
 
 <script>
@@ -60,7 +85,8 @@
                 location.href = '/country/' + results[0].code;
             } else {
                 resultsEl.innerHTML = results.map(function (r) {
-                    return '<li><a href="/country/' + r.code + '">' + r.nameKo + ' (' + r.nameEn + ', ' + r.code + ')</a></li>';
+                    return '<li class="bg-white/10"><a class="block px-4 py-3 text-sm text-white transition hover:bg-white/10" href="/country/' + r.code + '">'
+                        + r.nameKo + ' (' + r.nameEn + ', ' + r.code + ')</a></li>';
                 }).join('');
             }
         } catch (e) {

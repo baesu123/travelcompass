@@ -1,21 +1,28 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-<div th:fragment="nav" class="navbar">
-    <a th:href="@{/}" class="brand">Travel Compass</a>
-    <div class="nav-links">
-        <a th:href="@{/}">홈</a>
-        <a th:href="@{/favorites}">즐겨찾기</a>
-        <a th:href="@{/checklist}">체크리스트</a>
-        <a th:href="@{/reviews}">후기</a>
-        <a th:href="@{/budget}">예산 계산기</a>
+<nav th:fragment="nav" class="sticky top-0 z-50 bg-primary-800 shadow-md">
+    <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-6 gap-y-2 px-4 py-3 sm:px-6 lg:px-8">
+        <a th:href="@{/}" class="flex items-center gap-2 text-lg font-bold text-white">
+            <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500 text-white">🧭</span>
+            Travel Compass
+        </a>
+
+        <div class="order-3 flex w-full flex-wrap items-center gap-1 sm:w-auto md:order-2">
+            <a th:href="@{/}" class="rounded-lg px-3 py-2 text-sm font-medium text-primary-100 transition hover:bg-primary-700 hover:text-white">홈</a>
+            <a th:href="@{/favorites}" class="rounded-lg px-3 py-2 text-sm font-medium text-primary-100 transition hover:bg-primary-700 hover:text-white">즐겨찾기</a>
+            <a th:href="@{/checklist}" class="rounded-lg px-3 py-2 text-sm font-medium text-primary-100 transition hover:bg-primary-700 hover:text-white">체크리스트</a>
+            <a th:href="@{/reviews}" class="rounded-lg px-3 py-2 text-sm font-medium text-primary-100 transition hover:bg-primary-700 hover:text-white">후기</a>
+            <a th:href="@{/budget}" class="rounded-lg px-3 py-2 text-sm font-medium text-primary-100 transition hover:bg-primary-700 hover:text-white">예산 계산기</a>
+        </div>
+
+        <div class="order-2 flex items-center gap-3 md:order-3">
+            <span th:if="${nickname}" th:text="${nickname} + '님'" class="hidden text-sm text-primary-100 sm:inline"></span>
+            <form th:action="@{/logout}" method="post">
+                <button type="submit" class="rounded-lg border border-primary-500 px-3 py-1.5 text-sm font-medium text-primary-100 transition hover:border-emerald-400 hover:bg-primary-700 hover:text-white">로그아웃</button>
+            </form>
+        </div>
     </div>
-    <div class="nav-user">
-        <span th:if="${nickname}" th:text="${nickname} + '님'"></span>
-        <form th:action="@{/logout}" method="post" class="logout-form">
-            <button type="submit">로그아웃</button>
-        </form>
-    </div>
-</div>
+</nav>
 </body>
 </html>

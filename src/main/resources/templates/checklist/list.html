@@ -2,22 +2,51 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>여행 체크리스트 - Travel Compass</title>
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {sans: ['Inter', '"Malgun Gothic"', 'sans-serif']},
+                    colors: {
+                        primary: {
+                            50: '#eef2f8', 100: '#dbe4f1', 200: '#b7c9e3', 300: '#93aed5',
+                            400: '#6f93c1', 500: '#5070ad', 600: '#435d8f', 700: '#364a72',
+                            800: '#293755', 900: '#1c2438'
+                        }
+                    },
+                    boxShadow: {
+                        card: '0 2px 12px rgba(23, 34, 59, 0.06)',
+                        'card-hover': '0 10px 30px rgba(23, 34, 59, 0.10)'
+                    }
+                }
+            }
+        }
+    </script>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
-<body>
+<body class="bg-primary-50 font-sans text-slate-800 antialiased">
 <div th:replace="~{fragments/nav :: nav}"></div>
 
-<main class="container">
-    <div class="card">
-        <h2>여행 체크리스트</h2>
-        <form class="search-form" id="add-form">
-            <input type="text" id="item-name" placeholder="새 항목 입력 (예: 여권)" required>
-            <button type="submit">추가</button>
+<main class="mx-auto max-w-2xl px-4 py-8 sm:px-6 lg:px-8">
+    <div class="rounded-2xl bg-white p-6 shadow-card sm:p-8">
+        <h2 class="text-xl font-bold text-slate-900">여행 체크리스트</h2>
+        <p class="mt-1 text-sm text-slate-500">여행에 챙길 준비물을 등록하고 체크해보세요.</p>
+
+        <form class="mt-6 flex gap-3" id="add-form">
+            <input type="text" id="item-name" placeholder="새 항목 입력 (예: 여권)" required
+                   class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm outline-none transition focus:border-primary-400 focus:ring-2 focus:ring-primary-100">
+            <button type="submit"
+                    class="inline-flex shrink-0 items-center justify-center rounded-xl bg-primary-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-primary-700">추가</button>
         </form>
-        <ul class="plain-list" id="checklist"></ul>
+
+        <ul class="mt-6 space-y-2" id="checklist"></ul>
     </div>
 </main>
 

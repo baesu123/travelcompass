@@ -10,7 +10,7 @@
     }).addTo(map);
 
     function showMessage(message) {
-        panel.innerHTML = '<div class="card"><p>' + message + '</p></div>';
+        panel.innerHTML = '<div class="' + UI.card + ' flex min-h-[200px] items-center justify-center text-center text-sm text-slate-500">' + message + '</div>';
         attractionsPanel.innerHTML = '';
     }
 
@@ -26,8 +26,9 @@
             apiFetch('/api/timezones/' + code).catch(() => null)
         ])
             .then(([country, timezone]) => {
-                panel.innerHTML = countryDetailHtml(country, timezone);
-                attractionsPanel.innerHTML = attractionsHtml(country);
+                panel.innerHTML = countryDetailHtml(country, timezone) +
+                    '<div class="mt-6">' + infoGridHtml(country, timezone, 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3') + '</div>';
+                attractionsPanel.innerHTML = '';
                 document.getElementById('favorite-btn').addEventListener('click', () => {
                     toggleCountryFavorite(code, country.favorite, () => showCountry(code));
                 });
