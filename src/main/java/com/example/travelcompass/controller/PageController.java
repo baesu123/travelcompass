@@ -54,6 +54,12 @@ public class PageController {
         return "review/list";
     }
 
+    @GetMapping("/budget")
+    public String budget(@AuthenticationPrincipal MemberDetails memberDetails, Model model) {
+        model.addAttribute("nickname", nicknameOf(memberDetails));
+        return "budget/calculator";
+    }
+
     @GetMapping("/reviews/{reviewId}")
     public String reviewDetail(@AuthenticationPrincipal MemberDetails memberDetails,
                                 @PathVariable Long reviewId,

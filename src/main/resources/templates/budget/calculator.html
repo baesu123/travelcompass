@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>예산 계산기 - Travel Compass</title>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/budget.css}">
+</head>
+<body>
+<div th:replace="~{fragments/nav :: nav}"></div>
+
+<main class="container">
+    <div class="budget-card">
+        <h2>여행 예산 계산기</h2>
+        <form id="budgetCalculator">
+            <div class="input-block">
+                <label for="totalBudget">총 여행 예산</label>
+                <select id="totalBudget" name="totalBudget" required>
+                    <option value="300000">300,000원</option>
+                    <option value="500000">500,000원</option>
+                    <option value="800000">800,000원</option>
+                    <option value="1000000">1,000,000원</option>
+                    <option value="1500000">1,500,000원</option>
+                    <option value="2000000">2,000,000원</option>
+                    <option value="3000000">3,000,000원</option>
+                    <option value="5000000">5,000,000원</option>
+                    <option value="other">기타</option>
+                </select>
+                <input type="number" id="otherBudget" name="otherBudget" style="display:none;" placeholder="예산을 입력하세요.">
+            </div>
+            <div class="input-block">
+                <label for="days">여행 일수</label>
+                <input type="number" id="days" name="days" min="1" required>
+            </div>
+            <div class="input-block">
+                <label for="accommodation">숙박비(하루)</label>
+                <input type="number" id="accommodation" name="accommodation" min="0" required>
+            </div>
+            <div class="input-block">
+                <label for="transport">교통비</label>
+                <input type="number" id="transport" name="transport" min="0" required>
+            </div>
+            <div class="input-block">
+                <label for="food">식비(하루)</label>
+                <input type="number" id="food" name="food" min="0" required>
+            </div>
+            <div class="input-block">
+                <label for="shopping">쇼핑 및 기타 비용</label>
+                <input type="number" id="shopping" name="shopping" min="0" required>
+            </div>
+            <div class="input-block">
+                <label for="targetCurrency">현지 통화 코드 (환율 변환용)</label>
+                <input type="text" id="targetCurrency" name="targetCurrency" placeholder="예: USD, JPY, EUR">
+            </div>
+            <div class="input-block">
+                <input type="submit" class="btn" value="예산 계산하기">
+            </div>
+        </form>
+        <div id="result"></div>
+    </div>
+</main>
+
+<script th:src="@{/js/api.js}"></script>
+<script th:src="@{/js/budget.js}"></script>
+</body>
+</html>

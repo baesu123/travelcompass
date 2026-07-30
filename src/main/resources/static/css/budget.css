@@ -1,0 +1,73 @@
+.budget-card {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    background-color: #ffffff;
+}
+
+.budget-card h2 {
+    font-weight: 500;
+    font-size: 2rem;
+    color: #9e3c3c;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.budget-card .input-block {
+    margin-bottom: 20px;
+}
+
+.budget-card .input-block label {
+    display: block;
+    font-weight: 700;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.budget-card .input-block input,
+.budget-card .input-block select {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    font-size: 1rem;
+    font-weight: 300;
+    color: #333;
+}
+
+.budget-card .btn {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #5C6BC0;
+    color: #fff;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.budget-card .btn:hover {
+    background-color: #3f51b5;
+}
+
+.budget-card #result {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+}
+
+.budget-card #result p {
+    margin: 0 0 8px;
+}
+
+.budget-card #result .error-message {
+    margin: 0;
+}

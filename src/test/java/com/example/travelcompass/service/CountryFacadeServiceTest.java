@@ -24,7 +24,8 @@ class CountryFacadeServiceTest {
             new FrankfurterClient(WebClient.builder()),
             new OpenMeteoClient(WebClient.builder()),
             favoriteMapper,
-            new CountryMapper()
+            new CountryMapper(),
+            new ClimateService(new ObjectMapper())
     );
 
     @Test
