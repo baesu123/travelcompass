@@ -1,5 +1,6 @@
 package com.example.travelcompass.service;
 
+import com.example.travelcompass.client.RestCountriesClient;
 import com.example.travelcompass.common.exception.BusinessException;
 import com.example.travelcompass.common.exception.ErrorCode;
 import com.example.travelcompass.dto.request.CommentCreateRequest;
@@ -27,6 +28,7 @@ public class ReviewServiceImpl implements ReviewService {
     private final ReviewMapper reviewMapper;
     private final CommentMapper commentMapper;
     private final MemberMapper memberMapper;
+    private final RestCountriesClient restCountriesClient;
 
     @Override
     public List<ReviewResponse> getReviews(String countryCode) {
@@ -47,9 +49,11 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     @Transactional
     public void createReview(Long memberId, ReviewCreateRequest request) {
+        String countryCode = request.getCountryCode().toUpperCase();
         reviewMapper.insert(Review.builder()
                 .memberId(memberId)
-                .countryCode(request.getCountryCode().toUpperCase())
+                .countryCode(countryCode)
+                .countryName(restCountriesClient.getKoreanName(countryCode))
                 .rating(request.getRating())
                 .content(request.getContent())
                 .build());
@@ -58,10 +62,12 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     @Transactional
     public void updateReview(Long memberId, Long reviewId, ReviewCreateRequest request) {
+        String countryCode = request.getCountryCode().toUpperCase();
         Review review = Review.builder()
                 .id(reviewId)
                 .memberId(memberId)
-                .countryCode(request.getCountryCode().toUpperCase())
+                .countryCode(countryCode)
+                .countryName(restCountriesClient.getKoreanName(countryCode))
                 .rating(request.getRating())
                 .content(request.getContent())
                 .build();
@@ -126,6 +132,7 @@ public class ReviewServiceImpl implements ReviewService {
                 .id(review.getId())
                 .authorNickname(author != null ? author.getNickname() : null)
                 .countryCode(review.getCountryCode())
+                .countryName(review.getCountryName())
                 .rating(review.getRating())
                 .content(review.getContent())
                 .createdAt(review.getCreatedAt())

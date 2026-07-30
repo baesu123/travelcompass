@@ -27,9 +27,9 @@ public class CountryDetailResponse {
     // 주요 관광지 (Wiki)
     private List<AttractionInfo> attractions;
 
-    // 환율
+    // 환율 (현지통화 1단위 = 원화)
     private String currencyCode;
-    private Double exchangeRateFromKrw;
+    private Double exchangeRateToKrw;
 
     // 날씨 (16일 예보)
     private List<String> forecastDates;

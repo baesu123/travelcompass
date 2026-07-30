@@ -6,6 +6,7 @@
         <id property="id" column="id"/>
         <result property="memberId" column="member_id"/>
         <result property="countryCode" column="country_code"/>
+        <result property="countryName" column="country_name"/>
         <result property="rating" column="rating"/>
         <result property="content" column="content"/>
         <result property="createdAt" column="created_at"/>
@@ -13,26 +14,27 @@
     </resultMap>
 
     <select id="findAllByCountryCode" parameterType="string" resultMap="reviewResultMap">
-        SELECT id, member_id, country_code, rating, content, created_at, updated_at
+        SELECT id, member_id, country_code, country_name, rating, content, created_at, updated_at
         FROM review
         WHERE country_code = #{countryCode}
         ORDER BY created_at DESC
     </select>
 
     <select id="findById" parameterType="long" resultMap="reviewResultMap">
-        SELECT id, member_id, country_code, rating, content, created_at, updated_at
+        SELECT id, member_id, country_code, country_name, rating, content, created_at, updated_at
         FROM review
         WHERE id = #{id}
     </select>
 
     <insert id="insert" parameterType="com.example.travelcompass.entity.Review" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO review (member_id, country_code, rating, content)
-        VALUES (#{memberId}, #{countryCode}, #{rating}, #{content})
+        INSERT INTO review (member_id, country_code, country_name, rating, content)
+        VALUES (#{memberId}, #{countryCode}, #{countryName}, #{rating}, #{content})
     </insert>
 
     <update id="updateByIdAndMemberId" parameterType="com.example.travelcompass.entity.Review">
         UPDATE review
         SET country_code = #{countryCode},
+            country_name = #{countryName},
             rating = #{rating},
             content = #{content},
             updated_at = CURRENT_TIMESTAMP

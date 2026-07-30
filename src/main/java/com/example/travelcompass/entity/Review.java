@@ -18,6 +18,7 @@ public class Review {
     private Long id;
     private Long memberId;
     private String countryCode;
+    private String countryName;
     private int rating;
     private String content;
     private LocalDateTime createdAt;

@@ -15,6 +15,7 @@ public class ReviewResponse {
     private Long id;
     private String authorNickname;
     private String countryCode;
+    private String countryName;
     private int rating;
     private String content;
     private LocalDateTime createdAt;

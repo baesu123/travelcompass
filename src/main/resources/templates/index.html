@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Travel Compass</title>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 </head>
 <body>
 <div th:replace="~{fragments/nav :: nav}"></div>
@@ -11,21 +14,61 @@
 <main class="container">
     <div class="card">
         <h2><span th:text="${nickname}"></span>님, 어디로 떠나볼까요?</h2>
-        <p>국가 코드를 입력하면 해당 국가의 환율, 날씨, 시차, 관광지 정보를 한 번에 확인할 수 있어요.</p>
+        <p>국가 코드 또는 국가명(한글/영문)을 입력하면 해당 국가의 환율, 날씨, 시차, 관광지 정보를 한 번에 확인할 수 있어요.</p>
         <form class="search-form" onsubmit="event.preventDefault(); goToCountry();">
-            <input type="text" id="countryCode" placeholder="국가 코드 입력 (예: KR, JP, US)" maxlength="2" required>
+            <input type="text" id="countryCode" placeholder="국가 코드 또는 국가명 입력 (예: KR, 대한민국, Korea)" required>
             <button type="submit">국가 정보 보기</button>
         </form>
+        <ul id="search-results" class="search-results"></ul>
+    </div>
+
+    <div class="map-page">
+        <div class="card">
+            <h2>지도에서 국가를 클릭해보세요</h2>
+            <div id="map"></div>
+        </div>
+        <div id="detail-panel">
+            <div class="card">
+                <p>지도에서 국가를 클릭하면 상세 정보가 여기에 표시됩니다.</p>
+            </div>
+        </div>
     </div>
 </main>
 
 <script>
-    function goToCountry() {
-        const code = document.getElementById('countryCode').value.trim().toUpperCase();
-        if (code) {
-            location.href = '/country/' + code;
+    async function goToCountry() {
+        const keyword = document.getElementById('countryCode').value.trim();
+        const resultsEl = document.getElementById('search-results');
+        resultsEl.innerHTML = '';
+        if (!keyword) {
+            return;
+        }
+
+        // 2글자 알파벳은 국가 코드로 간주해 바로 이동한다.
+        if (/^[A-Za-z]{2}$/.test(keyword)) {
+            location.href = '/country/' + keyword.toUpperCase();
+            return;
+        }
+
+        try {
+            const results = await apiFetch('/api/countries/search?keyword=' + encodeURIComponent(keyword));
+            if (results.length === 0) {
+                renderListError(resultsEl, '검색 결과가 없습니다.');
+            } else if (results.length === 1) {
+                location.href = '/country/' + results[0].code;
+            } else {
+                resultsEl.innerHTML = results.map(function (r) {
+                    return '<li><a href="/country/' + r.code + '">' + r.nameKo + ' (' + r.nameEn + ', ' + r.code + ')</a></li>';
+                }).join('');
+            }
+        } catch (e) {
+            renderListError(resultsEl, e.message);
         }
     }
 </script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script th:src="@{/js/api.js}"></script>
+<script th:src="@{/js/country-render.js}"></script>
+<script th:src="@{/js/map.js}"></script>
 </body>
 </html>

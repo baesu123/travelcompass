@@ -18,6 +18,7 @@ public class FavoriteCountry {
     private Long id;
     private Long memberId;
     private String countryCode;
+    private String countryName;
     private LocalDateTime createdAt;
 
 }

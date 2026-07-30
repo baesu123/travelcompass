@@ -1,5 +1,6 @@
 package com.example.travelcompass.service;
 
+import com.example.travelcompass.client.RestCountriesClient;
 import com.example.travelcompass.common.exception.BusinessException;
 import com.example.travelcompass.common.exception.ErrorCode;
 import com.example.travelcompass.dto.request.FavoriteCreateRequest;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 public class FavoriteServiceImpl implements FavoriteService {
 
     private final FavoriteMapper favoriteMapper;
+    private final RestCountriesClient restCountriesClient;
 
     @Override
     public List<FavoriteResponse> getFavorites(Long memberId) {
@@ -25,6 +27,7 @@ public class FavoriteServiceImpl implements FavoriteService {
                 .map(favorite -> FavoriteResponse.builder()
                         .id(favorite.getId())
                         .countryCode(favorite.getCountryCode())
+                        .countryName(favorite.getCountryName())
                         .createdAt(favorite.getCreatedAt())
                         .build())
                 .collect(Collectors.toList());
@@ -42,6 +45,7 @@ public class FavoriteServiceImpl implements FavoriteService {
         FavoriteCountry favoriteCountry = FavoriteCountry.builder()
                 .memberId(memberId)
                 .countryCode(countryCode)
+                .countryName(restCountriesClient.getKoreanName(countryCode))
                 .build();
 
         favoriteMapper.insert(favoriteCountry);

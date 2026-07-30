@@ -34,7 +34,7 @@ class CountryFacadeServiceTest {
         assertThat(response).isNotNull();
         assertThat(response.getCommonName()).isEqualTo("South Korea");
         assertThat(response.getCurrencyCode()).isEqualTo("KRW");
-        assertThat(response.getExchangeRateFromKrw()).isEqualTo(1.0);
+        assertThat(response.getExchangeRateToKrw()).isEqualTo(1.0);
         assertThat(response.getAttractions()).isNotEmpty();
         assertThat(response.getForecastDates()).isNotEmpty();
         assertThat(response.isFavorite()).isFalse();
@@ -47,8 +47,8 @@ class CountryFacadeServiceTest {
         assertThat(response).isNotNull();
         assertThat(response.getCommonName()).isEqualTo("Japan");
         assertThat(response.getCurrencyCode()).isEqualTo("JPY");
-        assertThat(response.getExchangeRateFromKrw()).isNotNull();
-        assertThat(response.getExchangeRateFromKrw()).isNotEqualTo(1.0);
+        assertThat(response.getExchangeRateToKrw()).isNotNull();
+        assertThat(response.getExchangeRateToKrw()).isNotEqualTo(1.0);
     }
 
 }

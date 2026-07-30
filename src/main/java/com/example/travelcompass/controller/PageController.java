@@ -19,6 +19,11 @@ public class PageController {
         return "index";
     }
 
+    @GetMapping("/map")
+    public String map() {
+        return "redirect:/";
+    }
+
     @GetMapping("/country/{countryCode}")
     public String countryDetail(@AuthenticationPrincipal MemberDetails memberDetails,
                                  @PathVariable String countryCode,
@@ -47,12 +52,6 @@ public class PageController {
         model.addAttribute("nickname", nicknameOf(memberDetails));
         model.addAttribute("countryCode", countryCode);
         return "review/list";
-    }
-
-    @GetMapping("/map")
-    public String map(@AuthenticationPrincipal MemberDetails memberDetails, Model model) {
-        model.addAttribute("nickname", nicknameOf(memberDetails));
-        return "map";
     }
 
     @GetMapping("/reviews/{reviewId}")

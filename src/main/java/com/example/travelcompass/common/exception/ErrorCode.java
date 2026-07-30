@@ -3,6 +3,7 @@ package com.example.travelcompass.common.exception;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
+// 프로젝트 전역에서 사용하는 에러 코드 모음 (HTTP 상태 + 코드 + 메시지)
 @Getter
 public enum ErrorCode {
 

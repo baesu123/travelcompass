@@ -6,11 +6,12 @@
         <id property="id" column="id"/>
         <result property="memberId" column="member_id"/>
         <result property="countryCode" column="country_code"/>
+        <result property="countryName" column="country_name"/>
         <result property="createdAt" column="created_at"/>
     </resultMap>
 
     <select id="findAllByMemberId" parameterType="long" resultMap="favoriteResultMap">
-        SELECT id, member_id, country_code, created_at
+        SELECT id, member_id, country_code, country_name, created_at
         FROM favorite_country
         WHERE member_id = #{memberId}
         ORDER BY created_at DESC
@@ -24,8 +25,8 @@
     </select>
 
     <insert id="insert" parameterType="com.example.travelcompass.entity.FavoriteCountry" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO favorite_country (member_id, country_code)
-        VALUES (#{memberId}, #{countryCode})
+        INSERT INTO favorite_country (member_id, country_code, country_name)
+        VALUES (#{memberId}, #{countryCode}, #{countryName})
     </insert>
 
     <delete id="deleteByIdAndMemberId">

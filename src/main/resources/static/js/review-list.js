@@ -25,7 +25,7 @@
                     '<li>' +
                     '<a href="/reviews/' + r.id + '">' +
                     '<span class="rating-stars">' + '★'.repeat(r.rating) + '☆'.repeat(5 - r.rating) + '</span> ' +
-                    r.authorNickname + ' - ' + r.content.substring(0, 40) +
+                    '[' + r.countryName + '] ' + r.authorNickname + ' - ' + r.content.substring(0, 40) +
                     '</a>' +
                     '</li>'
                 ).join('');

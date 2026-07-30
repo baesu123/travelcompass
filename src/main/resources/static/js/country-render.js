@@ -1,8 +1,8 @@
 function countryDetailHtml(country) {
     const currencyEntry = country.currencies ? Object.entries(country.currencies)[0] : null;
     const currencyLabel = currencyEntry ? currencyEntry[1].name + ' (' + currencyEntry[0] + ')' : '정보 없음';
-    const rateLabel = country.exchangeRateFromKrw
-        ? '1원 = ' + country.exchangeRateFromKrw.toFixed(6) + ' ' + (country.currencyCode || '')
+    const rateLabel = country.exchangeRateToKrw
+        ? '100 ' + (country.currencyCode || '') + ' = ' + Math.round(country.exchangeRateToKrw * 100).toLocaleString() + '원'
         : '정보 없음';
 
     const attractions = (country.attractions || []).map(a =>

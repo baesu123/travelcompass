@@ -1,5 +1,6 @@
 package com.example.travelcompass.service;
 
+import com.example.travelcompass.client.RestCountriesClient;
 import com.example.travelcompass.common.exception.BusinessException;
 import com.example.travelcompass.common.exception.ErrorCode;
 import com.example.travelcompass.dto.request.CommentCreateRequest;
@@ -28,7 +29,8 @@ class ReviewServiceImplTest {
     private final ReviewMapper reviewMapper = mock(ReviewMapper.class);
     private final CommentMapper commentMapper = mock(CommentMapper.class);
     private final MemberMapper memberMapper = mock(MemberMapper.class);
-    private final ReviewServiceImpl reviewService = new ReviewServiceImpl(reviewMapper, commentMapper, memberMapper);
+    private final RestCountriesClient restCountriesClient = mock(RestCountriesClient.class);
+    private final ReviewServiceImpl reviewService = new ReviewServiceImpl(reviewMapper, commentMapper, memberMapper, restCountriesClient);
 
     @Test
     void 국가별_후기_목록은_댓글없이_조회된다() {

@@ -13,6 +13,7 @@ public class FavoriteResponse {
 
     private Long id;
     private String countryCode;
+    private String countryName;
     private LocalDateTime createdAt;
 
 }

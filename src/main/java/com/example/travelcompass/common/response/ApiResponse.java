@@ -3,6 +3,7 @@ package com.example.travelcompass.common.response;
 import com.example.travelcompass.common.exception.ErrorCode;
 import lombok.Getter;
 
+// 모든 REST API 응답을 감싸는 공통 포맷 (success/code/message/data)
 @Getter
 public class ApiResponse<T> {
 

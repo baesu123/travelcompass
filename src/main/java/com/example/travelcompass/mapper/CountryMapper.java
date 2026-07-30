@@ -35,8 +35,8 @@ public class CountryMapper {
                 .latlng(country.getLatlng())
                 .flags(country.getFlags())
                 .attractions(toAttractions(wiki))
-                .currencyCode(findCurrencyCode(exchange))
-                .exchangeRateFromKrw(findExchangeRate(exchange))
+                .currencyCode(exchange.getBase())
+                .exchangeRateToKrw(findExchangeRate(exchange))
                 .forecastDates(daily != null ? daily.getTime() : Collections.emptyList())
                 .temperatureMax(daily != null ? daily.getTemperature2mMax() : Collections.emptyList())
                 .temperatureMin(daily != null ? daily.getTemperature2mMin() : Collections.emptyList())
@@ -59,13 +59,6 @@ public class CountryMapper {
                         .distanceMeters(item.getDist())
                         .build())
                 .collect(Collectors.toList());
-    }
-
-    private String findCurrencyCode(FrankfurterResponse exchange) {
-        if (exchange.getRates() == null || exchange.getRates().isEmpty()) {
-            return null;
-        }
-        return exchange.getRates().keySet().stream().findFirst().orElse(null);
     }
 
     private Double findExchangeRate(FrankfurterResponse exchange) {

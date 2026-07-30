@@ -58,6 +58,7 @@ public class CountryFacadeService {
 
         // Frankfurter API는 동일 통화 쌍(KRW->KRW)을 조회하면 "bad currency pair" 에러를 반환하므로
         // 외부 호출 없이 환율 1.0으로 직접 응답을 구성한다.
+        // 화면에는 "현지통화 100 = 원화" 형태로 보여주므로, 현지통화 -> KRW 방향으로 조회한다.
         Mono<FrankfurterResponse> exchangeMono;
         if (currencyCode == null) {
             exchangeMono = Mono.just(new FrankfurterResponse());
@@ -68,7 +69,7 @@ public class CountryFacadeService {
             sameCurrency.setRates(Map.of("KRW", 1.0));
             exchangeMono = Mono.just(sameCurrency);
         } else {
-            exchangeMono = frankfurterClient.getLatestRate("KRW", currencyCode).onErrorReturn(new FrankfurterResponse());
+            exchangeMono = frankfurterClient.getLatestRate(currencyCode, "KRW").onErrorReturn(new FrankfurterResponse());
         }
 
         // MyBatis 호출은 블로킹이므로, 나머지 리액티브 체인(WebClient)과 같은 이벤트 루프 스레드를

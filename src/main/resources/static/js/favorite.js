@@ -16,7 +16,7 @@
                 }
                 list.innerHTML = favorites.map(f =>
                     '<li>' +
-                    '<a href="/country/' + f.countryCode + '">' + f.countryCode + '</a>' +
+                    '<a href="/country/' + f.countryCode + '">' + f.countryName + ' (' + f.countryCode + ')</a>' +
                     '<button class="danger" data-id="' + f.id + '">삭제</button>' +
                     '</li>'
                 ).join('');

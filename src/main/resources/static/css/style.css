@@ -122,6 +122,21 @@ ul.plain-list {
     padding: 0;
 }
 
+.search-results {
+    list-style: none;
+    padding: 0;
+    margin: 0.8rem 0 0;
+}
+
+.search-results li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #eee;
+}
+
+.search-results li:last-child {
+    border-bottom: none;
+}
+
 ul.plain-list li {
     display: flex;
     align-items: center;

@@ -12,7 +12,7 @@
 
         app.innerHTML =
             '<div class="card">' +
-            '<h2>' + review.countryCode + ' 여행 후기</h2>' +
+            '<h2>' + review.countryName + ' 여행 후기</h2>' +
             '<p><span class="rating-stars">' + '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating) + '</span> - '
             + review.authorNickname + '</p>' +
             '<p>' + review.content + '</p>' +

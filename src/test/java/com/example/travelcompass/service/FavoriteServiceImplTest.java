@@ -1,5 +1,6 @@
 package com.example.travelcompass.service;
 
+import com.example.travelcompass.client.RestCountriesClient;
 import com.example.travelcompass.common.exception.BusinessException;
 import com.example.travelcompass.common.exception.ErrorCode;
 import com.example.travelcompass.dto.request.FavoriteCreateRequest;
@@ -25,7 +26,8 @@ import static org.mockito.Mockito.when;
 class FavoriteServiceImplTest {
 
     private final FavoriteMapper favoriteMapper = mock(FavoriteMapper.class);
-    private final FavoriteServiceImpl favoriteService = new FavoriteServiceImpl(favoriteMapper);
+    private final RestCountriesClient restCountriesClient = mock(RestCountriesClient.class);
+    private final FavoriteServiceImpl favoriteService = new FavoriteServiceImpl(favoriteMapper, restCountriesClient);
 
     @Test
     void 회원의_즐겨찾기_목록을_조회한다() {
