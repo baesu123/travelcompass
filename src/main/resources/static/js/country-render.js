@@ -50,6 +50,7 @@ function countryDetailHtml(country, timezone) {
         '<p><strong>통화:</strong> ' + currencyLabel + '</p>' +
         '<p><strong>환율:</strong> ' + rateLabel + '</p>' +
         '<button id="favorite-btn">' + (country.favorite ? '즐겨찾기 해제' : '즐겨찾기 추가') + '</button>' +
+        ' <a class="btn" href="/country/' + country.countryCode + '">상세보기</a>' +
         ' <a class="btn" href="/reviews?countryCode=' + country.countryCode + '">이 나라 후기 보기</a>' +
         '</div>' +
         timezoneHtml(timezone) +
