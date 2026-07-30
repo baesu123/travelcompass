@@ -145,6 +145,11 @@ ul.plain-list li {
     border-bottom: 1px solid #eee;
 }
 
+ul.forecast-list {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
 .rating-stars {
     color: #f5a623;
 }

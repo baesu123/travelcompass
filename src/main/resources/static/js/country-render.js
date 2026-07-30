@@ -1,4 +1,22 @@
-function countryDetailHtml(country) {
+function timezoneHtml(timezone) {
+    if (!timezone) {
+        return '<div class="card"><h3>현지 시각</h3><p>시차 정보 없음</p></div>';
+    }
+
+    const diff = timezone.timeDifferenceHours;
+    const diffLabel = diff === 0 ? '한국과 시차 없음' : '한국보다 ' + Math.abs(diff) + '시간 ' + (diff > 0 ? '빠름' : '느림');
+
+    return (
+        '<div class="card">' +
+        '<h3>현지 시각</h3>' +
+        '<p><strong>현지 시각:</strong> ' + timezone.localTime + ' (' + timezone.timezone + ')</p>' +
+        '<p><strong>한국 시각:</strong> ' + timezone.koreaTime + '</p>' +
+        '<p><strong>시차:</strong> ' + diffLabel + '</p>' +
+        '</div>'
+    );
+}
+
+function countryDetailHtml(country, timezone) {
     const currencyEntry = country.currencies ? Object.entries(country.currencies)[0] : null;
     const currencyLabel = currencyEntry ? currencyEntry[1].name + ' (' + currencyEntry[0] + ')' : '정보 없음';
     const rateLabel = country.exchangeRateToKrw
@@ -29,8 +47,9 @@ function countryDetailHtml(country) {
         '<div class="card">' +
         '<h3>주변 관광지</h3><ul class="plain-list">' + attractions + '</ul>' +
         '</div>' +
+        timezoneHtml(timezone) +
         '<div class="card">' +
-        '<h3>16일 날씨 예보</h3><ul class="plain-list">' + forecast + '</ul>' +
+        '<h3>2주간 날씨 예보</h3><ul class="plain-list forecast-list">' + forecast + '</ul>' +
         '</div>'
     );
 }

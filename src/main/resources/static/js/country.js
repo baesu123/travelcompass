@@ -2,9 +2,12 @@
     const app = document.getElementById('app');
     const countryCode = app.dataset.countryCode;
 
-    apiFetch('/api/countries/' + countryCode)
-        .then(country => {
-            app.innerHTML = countryDetailHtml(country);
+    Promise.all([
+        apiFetch('/api/countries/' + countryCode),
+        apiFetch('/api/timezones/' + countryCode).catch(() => null)
+    ])
+        .then(([country, timezone]) => {
+            app.innerHTML = countryDetailHtml(country, timezone);
             document.getElementById('favorite-btn').addEventListener('click', () => {
                 toggleCountryFavorite(countryCode, country.favorite, () => location.reload());
             });

@@ -18,9 +18,12 @@
 
     function showCountry(code) {
         showMessage('불러오는 중...');
-        apiFetch('/api/countries/' + code)
-            .then(country => {
-                panel.innerHTML = countryDetailHtml(country);
+        Promise.all([
+            apiFetch('/api/countries/' + code),
+            apiFetch('/api/timezones/' + code).catch(() => null)
+        ])
+            .then(([country, timezone]) => {
+                panel.innerHTML = countryDetailHtml(country, timezone);
                 document.getElementById('favorite-btn').addEventListener('click', () => {
                     toggleCountryFavorite(code, country.favorite, () => showCountry(code));
                 });
