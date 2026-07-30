@@ -1,0 +1,93 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="UseCase" id="usecase-diagram">
+    <mxGraphModel dx="900" dy="600" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="826" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- System boundary -->
+        <mxCell id="boundary" value="Travel Compass" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;fontSize=16;fontStyle=1;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="240" y="40" width="680" height="600" as="geometry" />
+        </mxCell>
+
+        <!-- Actors -->
+        <mxCell id="actorGuest" value="비회원 방문자" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="60" y="300" width="40" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="actorMember" value="로그인 회원" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="1000" y="300" width="40" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Use cases: Column A -->
+        <mxCell id="uc1" value="회원가입" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="300" y="80" width="220" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="uc2" value="로그인" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="300" y="155" width="220" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="uc3" value="로그아웃" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="300" y="230" width="220" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="uc4" value="국가 검색/상세 조회" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="300" y="305" width="220" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="uc5" value="지도 보기" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="300" y="380" width="220" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="uc6" value="환율 조회" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="300" y="455" width="220" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="uc7" value="여행 예산 계산" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="300" y="530" width="220" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Use cases: Column B -->
+        <mxCell id="uc8" value="시간대 조회" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="600" y="80" width="240" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="uc9" value="여행 후기 목록/상세 조회" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="600" y="155" width="240" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="uc10" value="즐겨찾기 관리" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="600" y="230" width="240" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="uc11" value="체크리스트 관리" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="600" y="305" width="240" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="uc12" value="후기 작성/수정/삭제" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="600" y="380" width="240" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="uc13" value="댓글 작성/수정/삭제" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="600" y="455" width="240" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Guest edges -->
+        <mxCell id="e-g-uc1" style="edgeStyle=none;html=1;endArrow=none;" edge="1" parent="1" source="actorGuest" target="uc1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e-g-uc2" style="edgeStyle=none;html=1;endArrow=none;" edge="1" parent="1" source="actorGuest" target="uc2"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e-g-uc4" style="edgeStyle=none;html=1;endArrow=none;" edge="1" parent="1" source="actorGuest" target="uc4"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e-g-uc5" style="edgeStyle=none;html=1;endArrow=none;" edge="1" parent="1" source="actorGuest" target="uc5"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e-g-uc6" style="edgeStyle=none;html=1;endArrow=none;" edge="1" parent="1" source="actorGuest" target="uc6"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e-g-uc7" style="edgeStyle=none;html=1;endArrow=none;" edge="1" parent="1" source="actorGuest" target="uc7"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e-g-uc8" style="edgeStyle=none;html=1;endArrow=none;" edge="1" parent="1" source="actorGuest" target="uc8"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e-g-uc9" style="edgeStyle=none;html=1;endArrow=none;" edge="1" parent="1" source="actorGuest" target="uc9"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- Member edges -->
+        <mxCell id="e-m-uc3" style="edgeStyle=none;html=1;endArrow=none;" edge="1" parent="1" source="actorMember" target="uc3"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e-m-uc4" style="edgeStyle=none;html=1;endArrow=none;" edge="1" parent="1" source="actorMember" target="uc4"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e-m-uc5" style="edgeStyle=none;html=1;endArrow=none;" edge="1" parent="1" source="actorMember" target="uc5"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e-m-uc6" style="edgeStyle=none;html=1;endArrow=none;" edge="1" parent="1" source="actorMember" target="uc6"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e-m-uc7" style="edgeStyle=none;html=1;endArrow=none;" edge="1" parent="1" source="actorMember" target="uc7"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e-m-uc8" style="edgeStyle=none;html=1;endArrow=none;" edge="1" parent="1" source="actorMember" target="uc8"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e-m-uc9" style="edgeStyle=none;html=1;endArrow=none;" edge="1" parent="1" source="actorMember" target="uc9"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e-m-uc10" style="edgeStyle=none;html=1;endArrow=none;" edge="1" parent="1" source="actorMember" target="uc10"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e-m-uc11" style="edgeStyle=none;html=1;endArrow=none;" edge="1" parent="1" source="actorMember" target="uc11"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e-m-uc12" style="edgeStyle=none;html=1;endArrow=none;" edge="1" parent="1" source="actorMember" target="uc12"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e-m-uc13" style="edgeStyle=none;html=1;endArrow=none;" edge="1" parent="1" source="actorMember" target="uc13"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- include relation -->
+        <mxCell id="e-uc2-uc10" value="&lt;&lt;include&gt;&gt;" style="edgeStyle=none;html=1;dashed=1;endArrow=open;" edge="1" parent="1" source="uc2" target="uc10"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
