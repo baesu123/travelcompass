@@ -6,6 +6,7 @@ import com.example.travelcompass.client.RestCountriesClient;
 import com.example.travelcompass.client.WikidataClient;
 import com.example.travelcompass.common.exception.BusinessException;
 import com.example.travelcompass.common.exception.ErrorCode;
+import com.example.travelcompass.dto.response.ClimateInfo;
 import com.example.travelcompass.dto.response.CountryDetailResponse;
 import com.example.travelcompass.dto.response.FrankfurterResponse;
 import com.example.travelcompass.dto.response.OpenMeteoResponse;
@@ -31,6 +32,7 @@ public class CountryFacadeService {
     private final OpenMeteoClient openMeteoClient;
     private final FavoriteMapper favoriteMapper;
     private final CountryMapper countryMapper;
+    private final ClimateService climateService;
 
     public CountryDetailResponse getCountryDetail(String countryCode, Long memberId, String memberNickname) {
         RestCountryResponse country = restCountriesClient.getCountryByCode(countryCode)
@@ -83,9 +85,11 @@ public class CountryFacadeService {
         // 국가 상세 화면은 REST Countries/Wiki/환율/날씨/즐겨찾기 5개 정보를 하나로 합쳐 보여줘야 하므로,
         // 서로 독립적인 외부 API 호출들을 Mono.zip으로 병렬 실행해 응답 시간을 단축한다.
         // 각 Mono는 onErrorReturn으로 실패를 흡수하므로, 외부 API 하나가 죽어도 나머지 정보는 정상 표시된다.
+        ClimateInfo climateInfo = climateService.getClimateInfo(country.getRegion());
+
         return Mono.zip(wikiMono, weatherMono, exchangeMono, favoriteMono)
                 .map(tuple -> countryMapper.toCountryDetailResponse(
-                        country, tuple.getT1(), tuple.getT3(), tuple.getT2(), tuple.getT4(), memberNickname))
+                        country, tuple.getT1(), tuple.getT3(), tuple.getT2(), climateInfo, tuple.getT4(), memberNickname))
                 .block(Duration.ofSeconds(10));
     }
 

@@ -16,16 +16,24 @@ function timezoneHtml(timezone) {
     );
 }
 
+function attractionsHtml(country) {
+    const attractions = (country.attractions || []).map(a =>
+        '<li>' + a.title + ' (약 ' + Math.round(a.distanceMeters) + 'm)</li>'
+    ).join('') || '<li>주변 관광지 정보 없음</li>';
+
+    return (
+        '<div class="card">' +
+        '<h3>주변 관광지</h3><ul class="plain-list">' + attractions + '</ul>' +
+        '</div>'
+    );
+}
+
 function countryDetailHtml(country, timezone) {
     const currencyEntry = country.currencies ? Object.entries(country.currencies)[0] : null;
     const currencyLabel = currencyEntry ? currencyEntry[1].name + ' (' + currencyEntry[0] + ')' : '정보 없음';
     const rateLabel = country.exchangeRateToKrw
         ? '100 ' + (country.currencyCode || '') + ' = ' + Math.round(country.exchangeRateToKrw * 100).toLocaleString() + '원'
         : '정보 없음';
-
-    const attractions = (country.attractions || []).map(a =>
-        '<li>' + a.title + ' (약 ' + Math.round(a.distanceMeters) + 'm)</li>'
-    ).join('') || '<li>주변 관광지 정보 없음</li>';
 
     const forecast = (country.forecastDates || []).map((date, i) =>
         '<li>' + date + ': ' + country.temperatureMin[i] + '℃ ~ ' + country.temperatureMax[i] + '℃'
@@ -44,12 +52,16 @@ function countryDetailHtml(country, timezone) {
         '<button id="favorite-btn">' + (country.favorite ? '즐겨찾기 해제' : '즐겨찾기 추가') + '</button>' +
         ' <a class="btn" href="/reviews?countryCode=' + country.countryCode + '">이 나라 후기 보기</a>' +
         '</div>' +
-        '<div class="card">' +
-        '<h3>주변 관광지</h3><ul class="plain-list">' + attractions + '</ul>' +
-        '</div>' +
         timezoneHtml(timezone) +
         '<div class="card">' +
         '<h3>2주간 날씨 예보</h3><ul class="plain-list forecast-list">' + forecast + '</ul>' +
+        '</div>' +
+        '<div class="card">' +
+        '<h3>평균 기후 및 여행 준비물</h3>' +
+        '<p><strong>평균 기온:</strong> ' + country.averageTemperature + '℃</p>' +
+        '<p><strong>평균 강수량:</strong> ' + country.averagePrecipitation + 'mm</p>' +
+        '<p><strong>추천 복장:</strong> ' + country.recommendedClothing + '</p>' +
+        '<p><strong>여행 팁:</strong> ' + country.travelTip + '</p>' +
         '</div>'
     );
 }

@@ -1,5 +1,6 @@
 package com.example.travelcompass.mapper;
 
+import com.example.travelcompass.dto.response.ClimateInfo;
 import com.example.travelcompass.dto.response.CountryDetailResponse;
 import com.example.travelcompass.dto.response.FrankfurterResponse;
 import com.example.travelcompass.dto.response.OpenMeteoResponse;
@@ -18,6 +19,7 @@ public class CountryMapper {
                                                            WikipediaGeoSearchResponse wiki,
                                                            FrankfurterResponse exchange,
                                                            OpenMeteoResponse weather,
+                                                           ClimateInfo climateInfo,
                                                            boolean favorite,
                                                            String memberNickname) {
 
@@ -41,6 +43,10 @@ public class CountryMapper {
                 .temperatureMax(daily != null ? daily.getTemperature2mMax() : Collections.emptyList())
                 .temperatureMin(daily != null ? daily.getTemperature2mMin() : Collections.emptyList())
                 .precipitationProbability(daily != null ? daily.getPrecipitationProbabilityMax() : Collections.emptyList())
+                .averageTemperature(climateInfo.getAverageTemperature())
+                .averagePrecipitation(climateInfo.getAveragePrecipitation())
+                .recommendedClothing(climateInfo.getRecommendedClothing())
+                .travelTip(climateInfo.getTravelTip())
                 .favorite(favorite)
                 .memberNickname(memberNickname)
                 .build();

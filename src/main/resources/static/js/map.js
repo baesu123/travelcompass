@@ -1,5 +1,6 @@
 (function () {
     const panel = document.getElementById('detail-panel');
+    const attractionsPanel = document.getElementById('attractions-panel');
 
     const map = L.map('map').setView([20, 0], 2);
 
@@ -10,10 +11,12 @@
 
     function showMessage(message) {
         panel.innerHTML = '<div class="card"><p>' + message + '</p></div>';
+        attractionsPanel.innerHTML = '';
     }
 
     function showError(message) {
         renderCardError(panel, message);
+        attractionsPanel.innerHTML = '';
     }
 
     function showCountry(code) {
@@ -24,6 +27,7 @@
         ])
             .then(([country, timezone]) => {
                 panel.innerHTML = countryDetailHtml(country, timezone);
+                attractionsPanel.innerHTML = attractionsHtml(country);
                 document.getElementById('favorite-btn').addEventListener('click', () => {
                     toggleCountryFavorite(code, country.favorite, () => showCountry(code));
                 });

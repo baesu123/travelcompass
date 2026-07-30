@@ -93,6 +93,11 @@ body {
     border-radius: 6px;
 }
 
+#attractions-panel {
+    max-width: 1100px;
+    margin-top: 1.5rem;
+}
+
 .search-form input {
     flex: 1;
     padding: 0.6rem;

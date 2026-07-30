@@ -37,6 +37,12 @@ public class CountryDetailResponse {
     private List<Double> temperatureMin;
     private List<Integer> precipitationProbability;
 
+    // 16일 이후 평균 기후 정보 (정적 데이터)
+    private double averageTemperature;
+    private double averagePrecipitation;
+    private String recommendedClothing;
+    private String travelTip;
+
     // 로그인/즐겨찾기 정보
     private boolean favorite;
     private String memberNickname;

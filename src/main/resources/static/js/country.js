@@ -7,7 +7,7 @@
         apiFetch('/api/timezones/' + countryCode).catch(() => null)
     ])
         .then(([country, timezone]) => {
-            app.innerHTML = countryDetailHtml(country, timezone);
+            app.innerHTML = countryDetailHtml(country, timezone) + attractionsHtml(country);
             document.getElementById('favorite-btn').addEventListener('click', () => {
                 toggleCountryFavorite(countryCode, country.favorite, () => location.reload());
             });
