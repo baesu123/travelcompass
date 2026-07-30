@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    국가별 여행 리뷰(review 테이블)를 다루는 MyBatis 매퍼 XML.
+    ReviewMapper.java 인터페이스와 namespace로 연결되며, id 속성이 메서드 이름과 매칭된다.
+-->
 <mapper namespace="com.example.travelcompass.mapper.ReviewMapper">
 
+    <!--
+        resultMap: review 테이블 컬럼을 Review 엔티티 필드에 매핑하는 규칙.
+        <id>는 PK 컬럼(id), <result>는 나머지 일반 컬럼(작성자, 국가 정보, 평점, 내용, 시각 등)이다.
+    -->
     <resultMap id="reviewResultMap" type="com.example.travelcompass.entity.Review">
         <id property="id" column="id"/>
         <result property="memberId" column="member_id"/>
@@ -13,6 +21,11 @@
         <result property="updatedAt" column="updated_at"/>
     </resultMap>
 
+    <!--
+        특정 국가 코드(countryCode)에 달린 모든 리뷰를 조회한다.
+        최신 리뷰가 먼저 보이도록 created_at 내림차순(DESC)으로 정렬한다.
+        결과는 reviewResultMap 규칙에 따라 Review 객체 리스트로 변환된다.
+    -->
     <select id="findAllByCountryCode" parameterType="string" resultMap="reviewResultMap">
         SELECT id, member_id, country_code, country_name, rating, content, created_at, updated_at
         FROM review
@@ -20,17 +33,33 @@
         ORDER BY created_at DESC
     </select>
 
+    <!--
+        리뷰 고유 ID(PK)로 리뷰 한 건의 상세 정보를 조회한다.
+        주로 상세 화면 진입이나 수정 폼에 기존 값을 채워 넣을 때 사용된다.
+    -->
     <select id="findById" parameterType="long" resultMap="reviewResultMap">
         SELECT id, member_id, country_code, country_name, rating, content, created_at, updated_at
         FROM review
         WHERE id = #{id}
     </select>
 
+    <!--
+        새 리뷰를 등록한다.
+        useGeneratedKeys="true" + keyProperty="id" : DB가 자동 채번한 PK를
+        INSERT 이후 자바 Review 객체의 id 필드에 채워 넣어준다.
+    -->
     <insert id="insert" parameterType="com.example.travelcompass.entity.Review" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO review (member_id, country_code, country_name, rating, content)
         VALUES (#{memberId}, #{countryCode}, #{countryName}, #{rating}, #{content})
     </insert>
 
+    <!--
+        기존 리뷰 내용을 수정한다.
+        parameterType은 Review 엔티티 전체를 파라미터로 받는다는 뜻이며,
+        #{countryCode} 등은 파라미터로 넘어온 Review 객체의 필드 값을 그대로 참조한다.
+        WHERE 절에 id뿐 아니라 member_id 조건도 함께 걸어, 리뷰 작성자 본인만
+        수정할 수 있도록 소유권을 검증한다. updated_at은 수정 시각으로 자동 갱신된다.
+    -->
     <update id="updateByIdAndMemberId" parameterType="com.example.travelcompass.entity.Review">
         UPDATE review
         SET country_code = #{countryCode},
@@ -42,6 +71,10 @@
           AND member_id = #{memberId}
     </update>
 
+    <!--
+        리뷰를 삭제한다.
+        마찬가지로 id와 member_id 조건을 함께 걸어 작성자 본인의 리뷰만 삭제되도록 제한한다.
+    -->
     <delete id="deleteByIdAndMemberId">
         DELETE FROM review
         WHERE id = #{id}

@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    회원별 여행 준비물 체크리스트(checklist 테이블)를 다루는 MyBatis 매퍼 XML.
+    ChecklistMapper.java 인터페이스와 namespace(패키지 경로)로 연결되며,
+    각 <select>/<insert>/<update>/<delete>의 id 속성이 인터페이스의 메서드 이름과 1:1로 매칭된다.
+-->
 <mapper namespace="com.example.travelcompass.mapper.ChecklistMapper">
 
+    <!--
+        resultMap: DB 조회 결과(컬럼)를 자바 객체(Checklist)의 필드로 어떻게 옮겨 담을지 정의하는 매핑 규칙.
+        컬럼명이 스네이크 케이스(item_name)이고 자바 필드명이 카멜 케이스(itemName)라서
+        이렇게 하나하나 매핑해 주지 않으면 MyBatis가 값을 채우지 못한다.
+        <id>는 PK(기본키) 컬럼, <result>는 일반 컬럼을 의미한다.
+    -->
     <resultMap id="checklistResultMap" type="com.example.travelcompass.entity.Checklist">
         <id property="id" column="id"/>
         <result property="memberId" column="member_id"/>
@@ -11,6 +22,13 @@
         <result property="updatedAt" column="updated_at"/>
     </resultMap>
 
+    <!--
+        특정 회원(memberId)이 등록한 체크리스트 항목을 전부 조회한다.
+        parameterType="long"은 자바 인터페이스에서 넘어오는 memberId 파라미터가 Long 타입임을 의미하고,
+        #{memberId}는 그 값을 SQL의 물음표(?) 위치에 안전하게 바인딩(값 삽입)하는 문법이다(SQL Injection 방지).
+        결과는 checklistResultMap 규칙에 따라 Checklist 객체 리스트로 변환된다.
+        등록된 순서를 보여주기 위해 id 오름차순으로 정렬한다.
+    -->
     <select id="findAllByMemberId" parameterType="long" resultMap="checklistResultMap">
         SELECT id, member_id, item_name, checked, created_at, updated_at
         FROM checklist
@@ -18,11 +36,24 @@
         ORDER BY id ASC
     </select>
 
+    <!--
+        새 체크리스트 항목을 추가한다.
+        parameterType은 Checklist 엔티티 전체를 파라미터로 받는다는 뜻이며,
+        #{memberId} 등은 Checklist 객체의 각 필드 값을 그대로 참조해서 바인딩한다.
+        useGeneratedKeys="true" + keyProperty="id" : DB가 자동으로 채번한 PK(id)를
+        INSERT 실행 후 자바 Checklist 객체의 id 필드에 다시 채워 넣어준다(추가 조회 없이 바로 사용 가능).
+    -->
     <insert id="insert" parameterType="com.example.travelcompass.entity.Checklist" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO checklist (member_id, item_name, checked)
         VALUES (#{memberId}, #{itemName}, #{checked})
     </insert>
 
+    <!--
+        특정 체크리스트 항목의 체크 여부(checked)를 수정한다.
+        WHERE 절에 id뿐 아니라 member_id 조건도 함께 걸어,
+        본인이 등록한 항목이 아니면 아예 UPDATE되지 않도록(소유권 검증) 막아준다.
+        updated_at은 수정 시각을 현재 시각(CURRENT_TIMESTAMP)으로 자동 갱신한다.
+    -->
     <update id="updateCheckedByIdAndMemberId">
         UPDATE checklist
         SET checked = #{checked}, updated_at = CURRENT_TIMESTAMP
@@ -30,6 +61,10 @@
           AND member_id = #{memberId}
     </update>
 
+    <!--
+        특정 체크리스트 항목을 삭제한다.
+        여기서도 id와 member_id 조건을 함께 걸어, 다른 회원의 항목을 삭제하지 못하도록 방지한다.
+    -->
     <delete id="deleteByIdAndMemberId">
         DELETE FROM checklist
         WHERE id = #{id}

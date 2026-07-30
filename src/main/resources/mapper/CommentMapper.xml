@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    리뷰(review)에 달리는 댓글(comment 테이블)을 다루는 MyBatis 매퍼 XML.
+    CommentMapper.java 인터페이스와 namespace로 연결되며, id 속성이 메서드 이름과 매칭된다.
+-->
 <mapper namespace="com.example.travelcompass.mapper.CommentMapper">
 
+    <!--
+        resultMap: comment 테이블의 컬럼(스네이크 케이스)을 Comment 엔티티의 필드(카멜 케이스)에 매핑한다.
+        <id>는 PK 컬럼(id), <result>는 나머지 일반 컬럼들을 지정한다.
+    -->
     <resultMap id="commentResultMap" type="com.example.travelcompass.entity.Comment">
         <id property="id" column="id"/>
         <result property="reviewId" column="review_id"/>
@@ -11,6 +19,12 @@
         <result property="updatedAt" column="updated_at"/>
     </resultMap>
 
+    <!--
+        특정 리뷰(reviewId)에 달린 모든 댓글을 조회한다.
+        #{reviewId}는 파라미터 값을 SQL에 안전하게 바인딩하는 MyBatis 문법이다.
+        댓글은 작성된 순서대로 보여주기 위해 created_at 오름차순으로 정렬한다.
+        결과는 commentResultMap 규칙에 따라 Comment 객체 리스트로 변환된다.
+    -->
     <select id="findAllByReviewId" parameterType="long" resultMap="commentResultMap">
         SELECT id, review_id, member_id, content, created_at, updated_at
         FROM comment
@@ -18,11 +32,21 @@
         ORDER BY created_at ASC
     </select>
 
+    <!--
+        새 댓글을 등록한다.
+        useGeneratedKeys="true" + keyProperty="id" 설정으로 DB가 자동 채번한 PK 값을
+        INSERT 후 자바 Comment 객체의 id 필드에 그대로 채워 넣어준다.
+    -->
     <insert id="insert" parameterType="com.example.travelcompass.entity.Comment" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO comment (review_id, member_id, content)
         VALUES (#{reviewId}, #{memberId}, #{content})
     </insert>
 
+    <!--
+        댓글 내용을 수정한다.
+        WHERE 절에서 id뿐 아니라 member_id도 함께 검사하여,
+        댓글 작성자 본인이 아니면 수정되지 않도록(소유권 검증) 막는다.
+    -->
     <update id="updateContentByIdAndMemberId">
         UPDATE comment
         SET content = #{content}, updated_at = CURRENT_TIMESTAMP
@@ -30,6 +54,10 @@
           AND member_id = #{memberId}
     </update>
 
+    <!--
+        댓글을 삭제한다.
+        마찬가지로 id와 member_id 조건을 함께 걸어 작성자 본인의 댓글만 삭제되도록 한다.
+    -->
     <delete id="deleteByIdAndMemberId">
         DELETE FROM comment
         WHERE id = #{id}

@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    회원(member 테이블)의 로그인/회원가입 관련 조회 및 등록을 다루는 MyBatis 매퍼 XML.
+    MemberMapper.java 인터페이스와 namespace로 연결되며, id 속성이 메서드 이름과 매칭된다.
+-->
 <mapper namespace="com.example.travelcompass.mapper.MemberMapper">
 
+    <!--
+        resultMap: member 테이블 컬럼을 Member 엔티티 필드에 매핑하는 규칙.
+        <id>는 PK 컬럼(id), <result>는 로그인/가입 시 사용되는 나머지 컬럼들이다.
+    -->
     <resultMap id="memberResultMap" type="com.example.travelcompass.entity.Member">
         <id property="id" column="id"/>
         <result property="username" column="username"/>
@@ -10,24 +18,43 @@
         <result property="createdAt" column="created_at"/>
     </resultMap>
 
+    <!--
+        로그인 아이디(username)로 회원 한 명을 조회한다.
+        주로 로그인 시 입력한 아이디로 회원을 찾아 비밀번호를 비교(인증)하는 데 사용된다.
+        parameterType="string"은 자바에서 넘어오는 파라미터가 문자열 하나임을 의미한다.
+    -->
     <select id="findByUsername" parameterType="string" resultMap="memberResultMap">
         SELECT id, username, password, nickname, created_at
         FROM member
         WHERE username = #{username}
     </select>
 
+    <!--
+        회원 고유 ID(PK)로 회원 한 명을 조회한다.
+        주로 세션에 저장된 회원 ID로 최신 회원 정보를 다시 불러올 때 사용된다.
+    -->
     <select id="findById" parameterType="long" resultMap="memberResultMap">
         SELECT id, username, password, nickname, created_at
         FROM member
         WHERE id = #{id}
     </select>
 
+    <!--
+        특정 아이디(username)를 사용하는 회원 수를 센다.
+        resultType="int"는 조회 결과를 resultMap 없이 바로 int 값 하나로 받는다는 뜻이다(단일 값 COUNT 결과).
+        회원가입 폼에서 아이디 중복 검사에 사용된다(0이면 사용 가능).
+    -->
     <select id="countByUsername" parameterType="string" resultType="int">
         SELECT COUNT(*)
         FROM member
         WHERE username = #{username}
     </select>
 
+    <!--
+        신규 회원을 등록(회원가입)한다.
+        useGeneratedKeys="true" + keyProperty="id" : DB가 자동 채번한 PK를
+        INSERT 이후 자바 Member 객체의 id 필드에 채워 넣어준다.
+    -->
     <insert id="insert" parameterType="com.example.travelcompass.entity.Member" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO member (username, password, nickname)
         VALUES (#{username}, #{password}, #{nickname})
